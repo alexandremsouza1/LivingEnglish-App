@@ -6,7 +6,8 @@ node_modules
 /src-cordova/node_modules
 /src-cordova/platforms
 /src-cordova/plugins
-/src-cordova/www
+/src-cordova/www/*
+!/src-cordova/www/screen
 /src-bex/www
 /src-bex/js/core
 npm-debug.log*
