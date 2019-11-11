@@ -1,11 +1,16 @@
 <template>
   <q-page class="flex flex-center">
-    <img alt="Quasar logo" src="~assets/quasar-logo-full.svg">
+    <phrase>
+    </phrase>
   </q-page>
 </template>
 
 <script>
+import phrase  from "src/components/item-phrase";
 export default {
-  name: 'PageIndex'
+  name: 'PageIndex',
+  components:{
+      phrase
+  },
 }
 </script>
