@@ -14,9 +14,9 @@
       </q-card-section>
 
       <q-card-section>
-          <q-input rounded outlined v-model="text">
+          <q-input rounded outlined v-model="traduzido">
             <template v-slot:append>
-             <q-icon name="event" />
+             <q-icon name="done" />
             </template>
           </q-input>
       </q-card-section>
@@ -31,17 +31,49 @@
       </q-card-section>
     </q-card>
     </div>
+    <button @click="show(text)"></button>
   </div>
 </template>
 <script>
+
+var apiKey = 'AIzaSyBgsTE6JQ5wsgERpi6m2xBY-9pCn2I5zcA';
+var options = {
+
+};
+import googleTranslate from 'google-translate';
 export default {
   props: ['text'],
   data () {
     return {
       ratingModel: 4,
-      ratingColors: ['green', 'light-green-6', 'green', 'green-9', 'green-10']
+      ratingColors: ['green', 'light-green-6', 'green', 'green-9', 'green-10'],
+      sourceLanguage :'en',
+      targetLanguage : 'pt',
+      traduzido:''
     }
-  }
+  },
+  computed: {
+    // traduzido:function () {
+    //   return this.t(this.text)
+    // }
+  },
+  methods:{
+    t(txt){
+      return new Promise((resolve, reject) => {
+       googleTranslate('AIzaSyBHt947aSFRXbo1wgQGxmam9iRB7wHNkco').translate(txt, 'pt', (err, translation) => {
+          err 
+              ? (reject(err), logger.log('error', err))
+              : resolve(translation.translatedText)
+          });
+      });
+    },
+    show(){
+      var self = this
+      this.t(this.text).then(function(result){
+        self.traduzido = result;
+      })
+    }
+}
 }
 </script>
 <style lang="sass" scoped>
