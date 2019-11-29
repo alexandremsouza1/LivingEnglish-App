@@ -44,7 +44,12 @@ module.exports = function (ctx) {
       all: 'auto',
 
       components: [
-        'QIntersection'
+        'QIntersection',
+        'QRating',
+        'QCard',
+        'QCardSection',
+        'QCardActions',
+        'QInput'
       ],
       directives: [],
 

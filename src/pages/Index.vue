@@ -2,10 +2,11 @@
   <q-page class="flex flex-center">
     <!-- <phrase>
     </phrase> -->
-      <button @click="translate(getRandonKey())">
-       Teste
+    <googleSearch :text="this.translation">
+    </googleSearch>
+      <!-- <button @click="translate(getRandonKey())">
         {{ translation }} 
-      </button>
+      </button> -->
       <!-- {{ translate(getRandonKey())}} -->
   </q-page>
 </template>
@@ -35,6 +36,7 @@ export default {
   this.$store.dispatch('dictionary/saveJson', {
     json: json
   })
+    this.translate(this.getRandonKey())
   },
  methods: {
    getRandonKey(){
@@ -47,6 +49,7 @@ export default {
      return arr.reduce(function (a, b) { return a.length > b.length ? a : b; });
    },
    translate(txt){
+     console.log(txt);
      if (txt == '' || typeof txt == 'undefined'){
        return false;
      }
@@ -58,16 +61,20 @@ export default {
                 }
               })
               .then(response => {
-                if(response.data.examples){
-                  this.translation = this.longest(response.data.examples);
-                }else{
-                  this.translation = '';
+                try{
+                  if(response.data.examples){
+                    this.translation = this.longest(response.data.examples);
+                  }else{
+                    this.translation = '';
+                  }
+                } catch (err) {
+                  this.translate(this.getRandonKey())
                 }
               })
               .catch(e => {
                 // this.errors.push(e)
                  console.log(e)
-                // this.translate(this.getRandonKey())
+                 this.translate(this.getRandonKey())
               })
     }
  }
