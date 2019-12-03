@@ -2,7 +2,7 @@
   <q-page class="flex flex-center">
     <!-- <phrase>
     </phrase> -->
-    <googleSearch :text="this.translation">
+    <googleSearch :text="this.translation" :word="this.word">
     </googleSearch>
       <!-- <button @click="translate(getRandonKey())">
         {{ translation }} 
@@ -24,7 +24,8 @@ export default {
   },
   data () {
     return {
-      translation : ''
+      translation : '',
+      word:''
     }
   },
   computed: {
@@ -50,6 +51,7 @@ export default {
    },
    translate(txt){
      console.log(txt);
+     this.word = txt;
      if (txt == '' || typeof txt == 'undefined'){
        return false;
      }

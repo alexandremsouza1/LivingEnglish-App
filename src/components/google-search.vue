@@ -6,17 +6,18 @@
       style="background: radial-gradient(circle, #35a2ff 0%, #014a88 100%)"
     >
       <q-card-section>
-        <div class="text-h6">Traduza a frase abaixo:</div>
+        <div class="text-h6">Traduza a frase abaixo: </div>
+        <center> {{word}}</center>
       </q-card-section>
 
       <q-card-section>
-         <q-input v-model="text" :dense="dense" /> 
+         <q-input v-model="text" :dense="true" autogrow/> 
       </q-card-section>
 
       <q-card-section>
-          <q-input rounded outlined v-model="traduzido">
+          <q-input rounded outlined v-model="traduzido[0]" autogrow>
             <template v-slot:append>
-             <q-icon name="done" />
+             <q-icon name="done" @click.stop="show(text)"/>
             </template>
           </q-input>
       </q-card-section>
@@ -31,7 +32,6 @@
       </q-card-section>
     </q-card>
     </div>
-    <button @click="show(text)"></button>
   </div>
 </template>
 <script>
@@ -42,20 +42,21 @@ var options = {
 };
 import googleTranslate from 'google-translate';
 export default {
-  props: ['text'],
+  props: ['text','word'],
   data () {
     return {
       ratingModel: 4,
       ratingColors: ['green', 'light-green-6', 'green', 'green-9', 'green-10'],
       sourceLanguage :'en',
       targetLanguage : 'pt',
-      traduzido:''
+      traduzido: []
     }
   },
   computed: {
-    // traduzido:function () {
-    //   return this.t(this.text)
+    // traduzido: function () {
+    //   return this.show(this.text)
     // }
+
   },
   methods:{
     t(txt){
@@ -67,10 +68,10 @@ export default {
           });
       });
     },
-    show(){
+    show(text){
       var self = this
-      this.t(this.text).then(function(result){
-        self.traduzido = result;
+      this.t(text).then(function(result){
+        self.traduzido.push(result)
       })
     }
 }
