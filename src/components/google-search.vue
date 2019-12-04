@@ -7,7 +7,7 @@
     >
       <q-card-section>
         <div class="text-h6">Traduza a frase abaixo: </div>
-        <center> {{word}}</center>
+        <center> {{word}} : {{traduzido.word}} </center>
       </q-card-section>
 
       <q-card-section>
@@ -15,7 +15,7 @@
       </q-card-section>
 
       <q-card-section>
-          <q-input rounded outlined v-model="traduzido[0]" autogrow>
+          <q-input rounded outlined v-model="traduzido.text" autogrow>
             <template v-slot:append>
              <q-icon name="done" @click.stop="show(text)"/>
             </template>
@@ -49,14 +49,14 @@ export default {
       ratingColors: ['green', 'light-green-6', 'green', 'green-9', 'green-10'],
       sourceLanguage :'en',
       targetLanguage : 'pt',
-      traduzido: []
+      traduzido: {
+        text:'',
+        word:''
+      }
     }
   },
-  computed: {
-    // traduzido: function () {
-    //   return this.show(this.text)
-    // }
-
+  mounted: function () {
+  
   },
   methods:{
     t(txt){
@@ -68,11 +68,15 @@ export default {
           });
       });
     },
-    show(text){
+    show(){
       var self = this
-      this.t(text).then(function(result){
-        self.traduzido.push(result)
-      })
+          Object.keys(this.$props).forEach(function(x,y){
+              self.t(self.$props[x]).then(function(result){
+              let pos = x;  
+              self.traduzido[pos] = result;
+          })
+        })
+    
     }
 }
 }
