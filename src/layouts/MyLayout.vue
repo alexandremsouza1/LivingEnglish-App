@@ -1,5 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
+    <q-pull-to-refresh @refresh="refresh">
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -87,6 +88,7 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+      </q-pull-to-refresh>
   </q-layout>
 </template>
 
@@ -97,6 +99,12 @@ export default {
   data () {
     return {
       leftDrawerOpen: false
+    }
+  },
+  methods:{
+    refresh(done){
+      window.location.reload()
+      done();
     }
   }
 }

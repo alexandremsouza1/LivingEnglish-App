@@ -1,5 +1,6 @@
 <template>
   <q-page class="flex flex-center">
+    <q-pull-to-refresh @refresh="refresh">
     <!-- <phrase>
     </phrase> -->
     <googleSearch :text="this.translation" :word="this.word">
@@ -8,6 +9,7 @@
         {{ translation }} 
       </button> -->
       <!-- {{ translate(getRandonKey())}} -->
+      </q-pull-to-refresh>
   </q-page>
 </template>
 
@@ -40,6 +42,9 @@ export default {
     this.translate(this.getRandonKey())
   },
  methods: {
+    refresh (done) {
+      done()
+    },
    getRandonKey(){
      const key = Object.keys(this.jsonContent)[Math.floor(Math.random() * Object.keys(this.jsonContent).length)];
      if(typeof key  != 'undefined'){

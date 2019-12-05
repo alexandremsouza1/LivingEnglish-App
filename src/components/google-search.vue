@@ -15,7 +15,7 @@
       </q-card-section>
 
       <q-card-section>
-          <q-input rounded outlined v-model="traduzido.text" autogrow>
+          <q-input rounded outlined v-model="frase" :value="frase" autogrow>
             <template v-slot:append>
              <q-icon name="done" @click.stop="show(text)"/>
             </template>
@@ -24,9 +24,10 @@
 
       <q-card-section>
           <q-rating
-            v-model="ratingModel"
+            v-model="score"
             size="3.5em"
-            color="grey"
+            color="yellow"
+            readonly
             :color-selected="ratingColors"
           />
       </q-card-section>
@@ -46,13 +47,15 @@ export default {
   data () {
     return {
       ratingModel: 4,
-      ratingColors: ['green', 'light-green-6', 'green', 'green-9', 'green-10'],
+      ratingColors: ['yellow', 'light-yellow-6', 'yellow', 'yellow-9', 'yellow-10'],
       sourceLanguage :'en',
       targetLanguage : 'pt',
+      frase: '',
       traduzido: {
         text:'',
         word:''
-      }
+      },
+      score: 0
     }
   },
   mounted: function () {
@@ -76,6 +79,21 @@ export default {
               self.traduzido[pos] = result;
           })
         })
+        var s1 = this.traduzido['text'];
+        var s2 = this.frase;
+
+        var s1Parts= s1.split(' ');
+        var s2Parts= s2.split(' ');
+
+        this.score = 0;
+
+        for(var i = 0; i<s1Parts.length; i++)
+        {
+            if(s1Parts[i] === s2Parts[i])
+                 this.score++;   
+        }
+        this.frase = s1;
+        this.score = Math.trunc(5 * (this.score / s1Parts.length));
     
     }
 }
