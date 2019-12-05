@@ -10,17 +10,22 @@
         <center> {{word}} : {{traduzido.word}} </center>
       </q-card-section>
 
-      <q-card-section>
-         <q-input v-model="text" :dense="true" autogrow/> 
+      <q-card-section class="row">
+         <q-input v-model="text" autogrow>
+           <template v-slot:append>
+             <q-icon name="volume_up"/>
+            </template> 
+         </q-input>
       </q-card-section>
-
-      <q-card-section>
+      <!-- <q-btn round color="amber" class="float-right" glossy text-color="black" icon="volume_up" /> -->
+      <q-card-section class="row">
           <q-input rounded outlined v-model="frase" :value="frase" autogrow>
             <template v-slot:append>
-             <q-icon name="done" @click.stop="show(text)"/>
+             <q-icon :name="iconConclusao" @click.stop="show(text)"/>
             </template>
           </q-input>
       </q-card-section>
+      <!-- <q-btn round color="amber" class="float-right" glossy text-color="black" icon="refresh" /> -->
 
       <q-card-section>
           <q-rating
@@ -55,7 +60,8 @@ export default {
         text:'',
         word:''
       },
-      score: 0
+      score: 0,
+      iconConclusao:'done'
     }
   },
   mounted: function () {
@@ -71,7 +77,7 @@ export default {
           });
       });
     },
-    show(){
+    async show(){
       var self = this
           Object.keys(this.$props).forEach(function(x,y){
               self.t(self.$props[x]).then(function(result){
@@ -94,6 +100,8 @@ export default {
         }
         this.frase = s1;
         this.score = Math.trunc(5 * (this.score / s1Parts.length));
+        this.iconConclusao = 'refresh';
+        //aqui deve ter um emit para o pai para chamar outra frase
     
     }
 }
