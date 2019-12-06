@@ -3,7 +3,11 @@
     <q-pull-to-refresh @refresh="refresh">
     <!-- <phrase>
     </phrase> -->
-    <googleSearch :text="this.translation" :word="this.word">
+    <googleSearch 
+      :text="this.translation" 
+      :word="this.word"
+      v-on:getOther="translate(getRandonKey())"
+      >
     </googleSearch>
       <!-- <button @click="translate(getRandonKey())">
         {{ translation }} 

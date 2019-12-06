@@ -13,7 +13,7 @@
       <q-card-section class="row">
          <q-input v-model="text" autogrow>
            <template v-slot:append>
-             <q-icon name="volume_up"/>
+             <q-icon name="volume_up" @click="falar(text)"/>
             </template> 
          </q-input>
       </q-card-section>
@@ -21,7 +21,7 @@
       <q-card-section class="row">
           <q-input rounded outlined v-model="frase" :value="frase" autogrow>
             <template v-slot:append>
-             <q-icon :name="iconConclusao" @click.stop="show(text)"/>
+             <q-icon :name="iconConclusao" @click.stop="show(iconConclusao)"/>
             </template>
           </q-input>
       </q-card-section>
@@ -64,11 +64,18 @@ export default {
       iconConclusao:'done'
     }
   },
+  watch: {
+    text: {
+      handler (val) {
+        this.show('init');
+      }
+    }
+  },
   mounted: function () {
   
   },
   methods:{
-    t(txt){
+    async t(txt){
       return new Promise((resolve, reject) => {
        googleTranslate('AIzaSyBHt947aSFRXbo1wgQGxmam9iRB7wHNkco').translate(txt, 'pt', (err, translation) => {
           err 
@@ -77,32 +84,57 @@ export default {
           });
       });
     },
-    async show(){
-      var self = this
-          Object.keys(this.$props).forEach(function(x,y){
-              self.t(self.$props[x]).then(function(result){
-              let pos = x;  
-              self.traduzido[pos] = result;
-          })
+    async initTraducoes(){
+        var self = this
+        await Object.keys(this.$props).forEach(async function(x,y){
+            await self.t(self.$props[x]).then(function(result){
+            let pos = x; 
+            self.traduzido[pos] = ''; 
+            self.traduzido[pos] = result;
         })
-        var s1 = this.traduzido['text'];
-        var s2 = this.frase;
+      })
+    },
+     async show(iconConclusao){
+      await this.initTraducoes();
+      if(iconConclusao == 'done'){
+          var s1 = this.traduzido['text'];
+          var s2 = this.frase;
 
-        var s1Parts= s1.split(' ');
-        var s2Parts= s2.split(' ');
+          var s1Parts= s1.split(' ');
+          var s2Parts= s2.split(' ');
 
-        this.score = 0;
+          this.score = 0;
 
-        for(var i = 0; i<s1Parts.length; i++)
-        {
-            if(s1Parts[i] === s2Parts[i])
-                 this.score++;   
+          for(var i = 0; i<s1Parts.length; i++)
+          {
+              if(s1Parts[i] === s2Parts[i])
+                  this.score++;   
+          }
+          this.frase = s1;
+          this.score = Math.trunc(5 * (this.score / s1Parts.length));
+          if(this.traduzido['word'] != ''){
+              this.iconConclusao = 'refresh';
+          }else{
+            this.iconConclusao = 'done';
+          }
+      }else{
+        if(this.traduzido['text'] == ''){
+          this.iconConclusao = 'done';
+          //aqui deve ter um emit para o pai para chamar outra frase
+        }else{
+          this.$emit('getOther');
+          this.traduzido['text'] = '';
+          this.frase = '';
+          this.iconConclusao = 'done';
         }
-        this.frase = s1;
-        this.score = Math.trunc(5 * (this.score / s1Parts.length));
-        this.iconConclusao = 'refresh';
-        //aqui deve ter um emit para o pai para chamar outra frase
+      }
     
+    },
+    falar(text){
+      var setup = new SpeechSynthesisUtterance(text);
+      setup.lang = 'en-US';
+      setup.rate = 0.5;
+      speechSynthesis.speak(setup)
     }
 }
 }
