@@ -19,7 +19,7 @@
       </q-card-section>
       <!-- <q-btn round color="amber" class="float-right" glossy text-color="black" icon="volume_up" /> -->
       <q-card-section class="row">
-          <q-input rounded outlined v-model="frase" :value="frase" autogrow>
+          <q-input rounded outlined v-model="resposta" autogrow>
             <template v-slot:append>
              <q-icon :name="iconConclusao" @click.stop="show(iconConclusao)"/>
             </template>
@@ -56,6 +56,7 @@ export default {
       sourceLanguage :'en',
       targetLanguage : 'pt',
       frase: '',
+      resposta: '',
       traduzido: {
         text:'',
         word:''
@@ -67,7 +68,7 @@ export default {
   watch: {
     text: {
       handler (val) {
-        this.show('init');
+        this.show('done');
       }
     }
   },
@@ -95,10 +96,11 @@ export default {
       })
     },
      async show(iconConclusao){
+       debugger;
       await this.initTraducoes();
       if(iconConclusao == 'done'){
           var s1 = this.traduzido['text'];
-          var s2 = this.frase;
+          var s2 = this.resposta;
 
           var s1Parts= s1.split(' ');
           var s2Parts= s2.split(' ');
@@ -107,26 +109,25 @@ export default {
 
           for(var i = 0; i<s1Parts.length; i++)
           {
-              if(s1Parts[i].toLowerCase() === s2Parts[i].toLowerCase())
-                  this.score++;   
+              try{
+                if(s1Parts[i].toLowerCase() === s2Parts[i].toLowerCase())
+                    this.score++;   
+              }catch(err){
+                    console.log(err);
+              }
           }
           this.frase = s1;
           this.score = Math.trunc(5 * (this.score / s1Parts.length));
-          if(this.traduzido['word'] != ''){
+          if(this.resposta != ''){
               this.iconConclusao = 'refresh';
           }else{
             this.iconConclusao = 'done';
           }
       }else{
-        if(this.traduzido['text'] == ''){
           this.iconConclusao = 'done';
-          //aqui deve ter um emit para o pai para chamar outra frase
-        }else{
-          this.traduzido['text'] = '';
           this.$emit('getOther');
           this.frase = '';
-          this.iconConclusao = 'done';
-        }
+          this.resposta = '';
       }
     
     },
