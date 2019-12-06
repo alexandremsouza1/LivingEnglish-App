@@ -107,7 +107,7 @@ export default {
 
           for(var i = 0; i<s1Parts.length; i++)
           {
-              if(s1Parts[i] === s2Parts[i])
+              if(s1Parts[i].toLowerCase() === s2Parts[i].toLowerCase())
                   this.score++;   
           }
           this.frase = s1;
@@ -122,8 +122,8 @@ export default {
           this.iconConclusao = 'done';
           //aqui deve ter um emit para o pai para chamar outra frase
         }else{
-          this.$emit('getOther');
           this.traduzido['text'] = '';
+          this.$emit('getOther');
           this.frase = '';
           this.iconConclusao = 'done';
         }
