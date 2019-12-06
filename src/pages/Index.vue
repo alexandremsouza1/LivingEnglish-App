@@ -36,9 +36,11 @@ export default {
     }),
   },
   mounted: function () {
-  this.$store.dispatch('dictionary/saveJson', {
-    json: json
-  })
+  if(this.$store.getters['dictionary/json'] == null){
+    this.$store.dispatch('dictionary/saveJson', {
+      json: json
+    })
+  }
     this.translate(this.getRandonKey())
   },
  methods: {
