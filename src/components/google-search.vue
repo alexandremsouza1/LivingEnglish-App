@@ -120,6 +120,7 @@ export default {
           this.score = Math.trunc(5 * (this.score / s1Parts.length));
           if(this.resposta != ''){
               this.iconConclusao = 'refresh';
+              this.resposta = this.frase;
           }else{
             this.iconConclusao = 'done';
           }
