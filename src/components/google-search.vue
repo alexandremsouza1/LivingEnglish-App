@@ -96,7 +96,6 @@ export default {
       })
     },
      async show(iconConclusao){
-       debugger;
       await this.initTraducoes();
       if(iconConclusao == 'done'){
           var s1 = this.traduzido['text'];
@@ -133,10 +132,15 @@ export default {
     
     },
     falar(text){
-      var setup = new SpeechSynthesisUtterance(text);
-      setup.lang = 'en-US';
-      setup.rate = 0.5;
-      speechSynthesis.speak(setup)
+      TTS.speak({
+            text: text,
+            locale: 'en-US',
+            rate: 0.5
+        }, function () {
+        console.log('success');
+      }, function (reason) {
+        console.log('error', reason);
+      });
     }
 }
 }
