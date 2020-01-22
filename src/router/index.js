@@ -2,9 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import routes from './routes'
-
+import VueLocalForage from 'vue-localforage'
 Vue.use(VueRouter)
-
+Vue.use(VueLocalForage)
 /*
  * If not building with SSR mode, you can
  * directly export the Router instantiation
