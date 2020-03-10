@@ -50,9 +50,12 @@ module.exports = function (ctx) {
         'QCardSection',
         'QCardActions',
         'QInput',
-        'QPullToRefresh'
+        'QPullToRefresh',
+        'QDialog'
       ],
-      directives: [],
+      directives: [
+        'ClosePopup'
+      ],
 
       // Quasar plugins
       plugins: []

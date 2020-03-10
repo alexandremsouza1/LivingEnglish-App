@@ -9,6 +9,7 @@
       @select.native="logSelectionWithinInput($event)"
       @paste.native="paste"
     />
+    <card-letra></card-letra>
     </div>
     <q-btn
       round
@@ -29,8 +30,12 @@
   </div>
 </template>
 <script>
+import cardLetra  from "src/components/card-letra";
 import {t,falar} from 'src/plugins/translate.js'
 export default {
+    components:{
+      cardLetra
+  },
   data () {
     return {
       text: '',
