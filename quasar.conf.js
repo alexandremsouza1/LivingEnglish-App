@@ -51,7 +51,10 @@ module.exports = function (ctx) {
         'QCardActions',
         'QInput',
         'QPullToRefresh',
-        'QDialog'
+        'QDialog',
+        'QCarousel',
+        'QCarouselControl',
+        'QCarouselSlide'
       ],
       directives: [
         'ClosePopup'

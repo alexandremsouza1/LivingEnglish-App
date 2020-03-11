@@ -1,37 +1,69 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-btn label="Carousel" color="primary" @click="carousel = true" />
-    <q-btn label="Card" color="primary" @click="card = true" />
-    <q-btn label="Sliders" color="primary" @click="sliders = true" />
+    <!-- <q-btn label="Card" color="primary" @click="card = true" />
+    <q-btn label="Sliders" color="primary" @click="sliders = true" /> -->
 
     <q-dialog v-model="carousel">
-      <q-card
-        color="primary"
+      <q-carousel
+        animated
+        v-model="slide"
+        control-color="primary"
+        arrows
+        padding
+        height="400px"
+        class="bg-white shadow-1 rounded-borders"
       >
-        <q-card-section>
-          <div class="q-mt-md text-center">
-            <q-icon name="g_translate" color="primary" size="56px"/>
-          </div>
-          <div class="q-mt-md text-center">
-            <div class="text-h6">Traduza a frase abaixo: </div>
+        <q-carousel-slide v-for="item in all_frases" v-bind:key="item" :name="item" class="column no-wrap flex-center">
             <q-card-section>
-                <q-input  autogrow>
-                    <template v-slot:append>
-                        <q-icon name="volume_up" />
-                    </template> 
-                </q-input>
-            </q-card-section>    
-                <q-input rounded outlined autogrow>
-                    <template v-slot:append>
-                        <q-icon name="check_circle" />
-                    </template>
-                </q-input>
-            </div>
-        </q-card-section>
-      </q-card>
+                <div class="q-mt-md text-center">
+                    <q-icon name="g_translate" color="primary" size="56px"/>
+                </div>
+                <div class="q-mt-md text-center">
+                <div class="text-h6">Traduza a frase abaixo: </div>
+                <q-card-section>
+                      <q-input  autogrow>
+                          <template v-slot:append>
+                              <q-icon name="volume_up" />
+                          </template> 
+                      </q-input>
+                </q-card-section>    
+                      <q-input rounded outlined autogrow>
+                          <template v-slot:append>
+                              <q-icon name="check_circle" />
+                          </template>
+                      </q-input>
+                      <q-card-section>
+                        <div class="q-mt-md text-center">
+                          <p><i>Página {{item}} de {{all_frases.length}}</i></p>
+                        </div>
+                      </q-card-section>
+                 </div>
+          </q-card-section>
+        </q-carousel-slide>
+  
+        <!-- <q-carousel-slide :name="2" class="column no-wrap flex-center">
+          <q-icon name="live_tv" color="primary" size="56px" />
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="3" class="column no-wrap flex-center">
+          <q-icon name="layers" color="primary" size="56px" />
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="4" class="column no-wrap flex-center">
+          <q-icon name="terrain" color="primary" size="56px" />
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+        </q-carousel-slide> -->
+      </q-carousel>
     </q-dialog>
 
-    <q-dialog v-model="card">
+    <!-- <q-dialog v-model="card">
       <q-card class="my-card">
         <q-img src="https://cdn.quasar.dev/img/chicken-salad.jpg" />
 
@@ -111,7 +143,7 @@
           </q-item-section>
         </q-item>
       </q-card>
-    </q-dialog>
+    </q-dialog> -->
   </div>
 </template>
 <script>
@@ -121,7 +153,7 @@ export default {
       carousel: false,
       card: false,
       sliders: false,
-
+      all_frases:[1,2,3],
       slide: 1,
       lorem: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!',
 
