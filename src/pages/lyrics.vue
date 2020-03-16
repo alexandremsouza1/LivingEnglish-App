@@ -9,7 +9,9 @@
       @select.native="logSelectionWithinInput($event)"
       @paste.native="paste"
     />
-    <card-letra></card-letra>
+    <card-letra 
+    :all_frases="this.vet"
+    ></card-letra>
     </div>
     <q-btn
       round
@@ -39,7 +41,8 @@ export default {
   data () {
     return {
       text: '',
-      score:0
+      score:0,
+      vet: []
     }
   },
   methods:{
@@ -49,6 +52,7 @@ export default {
         setTimeout(() => {
             var arr = [];
             arr = paste.split("\n");
+            this.vet = arr;
             arr.forEach(function(x,y){
                 lyrics.push(x)
                 lyrics.push("\n\n");

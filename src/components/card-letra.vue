@@ -14,7 +14,7 @@
         height="400px"
         class="bg-white shadow-1 rounded-borders"
       >
-        <q-carousel-slide v-for="item in all_frases" v-bind:key="item" :name="item" class="column no-wrap flex-center">
+        <q-carousel-slide v-for="(item,index) in all_frases" v-bind:key="index-1" :name="index-1" class="column no-wrap flex-center">
             <q-card-section>
                 <div class="q-mt-md text-center">
                     <q-icon name="g_translate" color="primary" size="56px"/>
@@ -22,20 +22,21 @@
                 <div class="q-mt-md text-center">
                 <div class="text-h6">Traduza a frase abaixo: </div>
                 <q-card-section>
-                      <q-input  autogrow>
+                      <q-input :value="item" autogrow>
                           <template v-slot:append>
-                              <q-icon name="volume_up" />
+                              <q-icon name="volume_up" @click="listen(item)"/>
                           </template> 
                       </q-input>
                 </q-card-section>    
-                      <q-input rounded outlined autogrow>
+                      <q-input v-model="answer" rounded outlined autogrow @blur="clearValues"> 
                           <template v-slot:append>
-                              <q-icon name="check_circle" />
+                              <q-icon name="check_circle" @click="verify(item)"/>
                           </template>
                       </q-input>
                       <q-card-section>
+                        <div v-html="p"></div>.
                         <div class="q-mt-md text-center">
-                          <p><i>Página {{item}} de {{all_frases.length}}</i></p>
+                          <p><i>Página {{index + 1}} de {{all_frases.length}}</i></p>
                         </div>
                       </q-card-section>
                  </div>
@@ -147,13 +148,16 @@
   </div>
 </template>
 <script>
+import googleTranslate from 'google-translate';
 export default {
+  props: ['all_frases'],
   data () {
     return {
+      answer: '',
+      p: '',
       carousel: false,
       card: false,
       sliders: false,
-      all_frases:[1,2,3],
       slide: 1,
       lorem: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!',
 
@@ -163,6 +167,63 @@ export default {
       slideAlarm: 56,
       slideVibration: 63
     }
-  }
+  },
+  methods:{
+    clearValues(){
+      this.p = '';
+    },
+    listen(text){
+      TTS.speak({
+            text: text,
+            locale: 'en-US',
+            rate: 0.5
+        }, function () {
+        console.log('success');
+      }, function (reason) {
+        console.log('error', reason);
+      });
+    },
+    t(txt){
+      return new Promise((resolve, reject) => {
+       googleTranslate('AIzaSyBHt947aSFRXbo1wgQGxmam9iRB7wHNkco').translate(txt, 'pt', (err, translation) => {
+          err 
+              ? (reject(err), logger.log('error', err))
+              : resolve(translation.translatedText)
+          });
+      });
+    },
+    async verify(txt){
+      var traduzida = '';
+      var p = [];
+      await this.t(txt).then(function(result){
+              traduzida = result;
+      })
+      var s1 = traduzida;
+      var s2 = this.answer;
+
+      var s1Parts= s1.split(' ');
+      var s2Parts= s2.split(' ');
+
+      this.score = 0;
+
+      for(var i = 0; i<s1Parts.length; i++){
+          try{
+            if(s1Parts[i].toLowerCase() === s2Parts[i].toLowerCase()){
+              p.push(s1Parts[i]);
+            }else{
+              p.push('<mark>'+s1Parts[i]+'</mark>');
+            }
+          }catch(err){
+                p.push('<mark>'+s1Parts[i]+'</mark>');
+                console.log(err);
+          }
+      }
+      console.log(p)
+      this.p = p.join(' ');
+    }
+  },
+  mounted: function () {
+   //console.log(this.all_frases)
+  },
 }
 </script>
