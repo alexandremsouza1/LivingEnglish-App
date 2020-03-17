@@ -14,7 +14,7 @@
         height="400px"
         class="bg-white shadow-1 rounded-borders"
       >
-        <q-carousel-slide v-for="(item,index) in all_frases" v-bind:key="index-1" :name="index-1" class="column no-wrap flex-center">
+        <q-carousel-slide v-for="(item,index) in all_frases" v-bind:key="index-1" :name="index" class="column no-wrap flex-center">
             <q-card-section>
                 <div class="q-mt-md text-center">
                     <q-icon name="g_translate" color="primary" size="56px"/>
@@ -158,7 +158,7 @@ export default {
       carousel: false,
       card: false,
       sliders: false,
-      slide: 1,
+      slide: 0,
       lorem: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!',
 
       stars: 3,
