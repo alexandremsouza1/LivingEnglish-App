@@ -11,7 +11,8 @@
         control-color="primary"
         arrows
         padding
-        height="400px"
+        ref="carousel"
+        height="auto"
         class="bg-white shadow-1 rounded-borders"
       >
         <q-carousel-slide v-for="(item,index) in all_frases" v-bind:key="index-1" :name="index" class="column no-wrap flex-center">
@@ -168,9 +169,15 @@ export default {
       slideVibration: 63
     }
   },
+  watch:{
+    'slide': function (val) {
+       this.clearValues()
+    }
+  }, 
   methods:{
     clearValues(){
       this.p = '';
+      this.answer = '';
     },
     listen(text){
       TTS.speak({
@@ -224,6 +231,6 @@ export default {
   },
   mounted: function () {
    //console.log(this.all_frases)
-  },
+  }
 }
 </script>

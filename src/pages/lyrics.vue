@@ -24,7 +24,7 @@
     <q-btn
       round
       color="primary"
-      @click="verify"
+      @click="add"
       class="fixed"
       icon="add"
       style="right: 18px; bottom: 18px"
@@ -53,38 +53,38 @@ export default {
             var arr = [];
             arr = paste.split("\n");
             this.vet = arr;
-            arr.forEach(function(x,y){
-                lyrics.push(x)
-                lyrics.push("\n\n");
-            })
-            this.text = lyrics.join(" ");
+            // arr.forEach(function(x,y){
+            //     lyrics.push(x)
+            //     lyrics.push("\n\n");
+            // })
+            //this.text = this.vet.join(" ");
         }, 1000);
     },
-    verify(){
-       var __self = this;
+    add(){
+      //  var __self = this;
        var arr = [];
        arr = this.text.split("\n");
-        arr.forEach(async function(x,y){
-          if (!(y % 2 == 0) && ( x.trim() != '')){
-            try{
-              await t(arr[y-1]).then(function(result){
-                __self.pontuacao(arr[y],result)
-                console.log(__self.score);
-                arr[y] = result
-                __self.text = arr.join("\n");
-              })
-            //falar(arr[y-1])
-            }catch(err){
-              console.log(err);
-            }
-          }
-        })
-        this.$setItem('music', this.text)
+        // arr.forEach(async function(x,y){
+        //   if (!(y % 2 == 0) && ( x.trim() != '')){
+        //     try{
+        //       await t(arr[y-1]).then(function(result){
+        //         __self.pontuacao(arr[y],result)
+        //         console.log(__self.score);
+        //         arr[y] = result
+        //         __self.text = arr.join("\n");
+        //       })
+        //     //falar(arr[y-1])
+        //     }catch(err){
+        //       console.log(err);
+        //     }
+        //   }
+        // })
+        this.$setItem('music', arr)
     },
     loadmusic(){
       var _self = this;
       this.$getItem('music').then(function(value) {
-        _self.text = value;
+        _self.vet = value;
       }).catch(function(err) {
           console.log(err);
       });
