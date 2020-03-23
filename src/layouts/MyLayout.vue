@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-pull-to-refresh @refresh="refresh">
-    <q-header elevated>
+    <q-header elevated class="bg-red-5">
       <q-toolbar>
         <q-btn
           flat
@@ -13,7 +13,7 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          Living English
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
@@ -26,63 +26,81 @@
       bordered
       content-class="bg-grey-2"
     >
-      <q-list>
-        <q-item-label header>Essential Links</q-item-label>
-        <q-item clickable to='/lyrics/'>
-          <q-item-section avatar>
-            <q-icon name="library_music" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Letras</q-item-label>
-            <q-item-label caption>Cole sua letra aqui</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://github.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="code" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Github</q-item-label>
-            <q-item-label caption>github.com/quasarframework</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://chat.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="chat" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Discord Chat Channel</q-item-label>
-            <q-item-label caption>chat.quasar.dev</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://forum.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="record_voice_over" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Forum</q-item-label>
-            <q-item-label caption>forum.quasar.dev</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://twitter.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="rss_feed" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Twitter</q-item-label>
-            <q-item-label caption>@quasarframework</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://facebook.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="public" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Facebook</q-item-label>
-            <q-item-label caption>@QuasarFramework</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
+     
+      <q-list bordered padding class="rounded-borders text-primary">
+      <q-item-label header>Menu</q-item-label>
+      <q-item
+        clickable
+        v-ripple
+        :active="link === 'inbox'"
+        @click="link = 'inbox'"
+        active-class="my-menu-link"
+      >
+        <q-item-section avatar>
+          <q-icon name="library_music" class="text-red-4"/>
+        </q-item-section>
+
+        <q-item-section class="text-red-4">Music</q-item-section>
+      </q-item>
+
+      <q-item
+        clickable
+        v-ripple
+        :active="link === 'outbox'"
+        @click="link = 'outbox'"
+        active-class="my-menu-link"
+      >
+        <q-item-section avatar>
+          <q-icon name="send" class="text-red-4"/>
+        </q-item-section>
+
+        <q-item-section class="text-red-4">Outbox</q-item-section>
+      </q-item>
+
+      <q-item
+        clickable
+        v-ripple
+        :active="link === 'trash'"
+        @click="link = 'trash'"
+        active-class="my-menu-link"
+      >
+        <q-item-section avatar>
+          <q-icon name="delete" class="text-red-4"/>
+        </q-item-section>
+
+        <q-item-section class="text-red-4">Trash</q-item-section>
+      </q-item>
+      <q-separator spaced />
+      
+     
+      <q-item
+        clickable
+        v-ripple
+        :active="link === 'settings'"
+        @click="link = 'settings'"
+        active-class="my-menu-link"
+      >
+        <q-item-section avatar>
+          <q-icon name="settings" class="text-red-4"/>
+        </q-item-section>
+
+        <q-item-section class="text-red-4">Settings</q-item-section>
+      </q-item>
+
+      <q-item
+        clickable
+        v-ripple
+        :active="link === 'help'"
+        @click="link = 'help'"
+        active-class="my-menu-link"
+      >
+        <q-item-section avatar>
+          <q-icon name="help" class="text-red-4"/>
+        </q-item-section>
+
+        <q-item-section class="text-red-4">Help</q-item-section>
+      </q-item>
+    </q-list>
     </q-drawer>
 
     <q-page-container>
@@ -98,7 +116,8 @@ export default {
 
   data () {
     return {
-      leftDrawerOpen: false
+      leftDrawerOpen: false,
+      link: 'inbox'
     }
   },
   methods:{
@@ -109,3 +128,8 @@ export default {
   }
 }
 </script>
+<style lang="sass">
+.my-menu-link
+  color: white
+  background: $blue-grey-4
+</style>

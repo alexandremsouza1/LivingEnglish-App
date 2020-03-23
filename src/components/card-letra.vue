@@ -1,10 +1,6 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
-    <q-btn label="Carousel" color="primary" @click="carousel = true" />
-    <!-- <q-btn label="Card" color="primary" @click="card = true" />
-    <q-btn label="Sliders" color="primary" @click="sliders = true" /> -->
-
-    <q-dialog v-model="carousel">
+  <div>
+    <q-dialog v-model="active">
       <q-carousel
         animated
         v-model="slide"
@@ -151,12 +147,11 @@
 <script>
 import googleTranslate from 'google-translate';
 export default {
-  props: ['all_frases'],
+  props: ['all_frases','active'],
   data () {
     return {
       answer: '',
       p: '',
-      carousel: false,
       card: false,
       sliders: false,
       slide: 0,

@@ -5,15 +5,16 @@
       v-model="text"
       type="textarea"
       :max-height="100" 
-      rows="100"
+      rows="31"
       @select.native="logSelectionWithinInput($event)"
       @paste.native="paste"
     />
     <card-letra 
     :all_frases="this.vet"
+    :active="this.active"
     ></card-letra>
     </div>
-    <q-btn
+    <!-- <q-btn
       round
       color="black"
       @click="loadmusic"
@@ -28,7 +29,7 @@
       class="fixed"
       icon="add"
       style="right: 18px; bottom: 18px"
-    />
+    /> -->
   </div>
 </template>
 <script>
@@ -42,23 +43,27 @@ export default {
     return {
       text: '',
       score:0,
-      vet: []
+      vet: [],
+      active: false
     }
+  },
+  mounted(){
+   this.loadmusic()
   },
   methods:{
     paste(e) {
         let paste = e.clipboardData.getData('text')
         var lyrics = [];
+        var arr = [];
         setTimeout(() => {
-            var arr = [];
             arr = paste.split("\n");
             this.vet = arr;
-            // arr.forEach(function(x,y){
-            //     lyrics.push(x)
-            //     lyrics.push("\n\n");
-            // })
-            //this.text = this.vet.join(" ");
+            if(this.vet.length !== 0){
+              this.active =  true;
+              this.$setItem('music', this.vet);
+            }
         }, 1000);
+        
     },
     add(){
       //  var __self = this;
@@ -85,6 +90,11 @@ export default {
       var _self = this;
       this.$getItem('music').then(function(value) {
         _self.vet = value;
+        if(_self.vet.length == 0){
+            _self.text = "Cole sua música aqui!"
+        }else{
+            _self.active =  true;
+        }
       }).catch(function(err) {
           console.log(err);
       });
