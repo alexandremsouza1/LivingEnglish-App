@@ -25,7 +25,7 @@
                           </template> 
                       </q-input>
                 </q-card-section>    
-                      <q-input v-model="answer" rounded outlined autogrow @blur="clearValues"> 
+                      <q-input v-model="answer" rounded outlined autogrow> 
                           <template v-slot:append>
                               <q-icon name="check_circle" @click="verify(item)"/>
                           </template>
@@ -155,6 +155,7 @@ export default {
       card: false,
       sliders: false,
       slide: 0,
+      score: 0,
       lorem: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!',
 
       stars: 3,
@@ -206,21 +207,27 @@ export default {
       var s1Parts= s1.split(' ');
       var s2Parts= s2.split(' ');
 
-      this.score = 0;
-
       for(var i = 0; i<s1Parts.length; i++){
           try{
             if(s1Parts[i].toLowerCase() === s2Parts[i].toLowerCase()){
               p.push(s1Parts[i]);
+              this.score = 0;
             }else{
+              this.score++;
               p.push('<mark>'+s1Parts[i]+'</mark>');
             }
           }catch(err){
+                this.score++;
                 p.push('<mark>'+s1Parts[i]+'</mark>');
                 console.log(err);
           }
       }
       console.log(p)
+      var _self = this;
+      this.$getItem('music').then(function (item) {
+          item.score = _self.score;
+         _self.$setItem('music', item );
+      });
       this.p = p.join(' ');
     }
   },

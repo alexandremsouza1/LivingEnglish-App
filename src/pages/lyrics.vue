@@ -10,7 +10,7 @@
       @paste.native="paste"
     />
     <card-letra 
-    :all_frases="this.vet"
+    :all_frases="this.music.vet"
     :active="this.active"
     ></card-letra>
     </div>
@@ -43,8 +43,12 @@ export default {
     return {
       text: '',
       score:0,
-      vet: [],
-      active: false
+      active: false,
+      music: {
+        name : '',
+        vet: [],
+        score: 0      
+      }
     }
   },
   mounted(){
@@ -57,10 +61,10 @@ export default {
         var arr = [];
         setTimeout(() => {
             arr = paste.split("\n");
-            this.vet = arr;
-            if(this.vet.length !== 0){
+            this.music.vet = arr;
+            if(this.music.vet.length !== 0){
               this.active =  true;
-              this.$setItem('music', this.vet);
+              this.$setItem('music', this.music);
             }
         }, 1000);
         
@@ -87,10 +91,15 @@ export default {
         this.$setItem('music', arr)
     },
     loadmusic(){
+      debugger
       var _self = this;
       this.$getItem('music').then(function(value) {
-        _self.vet = value;
-        if(_self.vet.length == 0){
+        if(value.score == 0){
+          _self.$removeItem('music');
+          return false;
+        }
+        _self.music.vet = value.vet;
+        if(_self.music.vet.length == 0){
             _self.text = "Cole sua música aqui!"
         }else{
             _self.active =  true;
