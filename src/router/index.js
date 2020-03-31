@@ -2,9 +2,15 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import routes from './routes'
+import db from '../plugins/persistence'
 import VueLocalForage from 'vue-localforage'
+
+
+Vue.prototype.$db = db
+
 Vue.use(VueRouter)
 Vue.use(VueLocalForage)
+
 /*
  * If not building with SSR mode, you can
  * directly export the Router instantiation

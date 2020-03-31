@@ -222,12 +222,10 @@ export default {
                 console.log(err);
           }
       }
-      console.log(p)
-      var _self = this;
-      this.$getItem('music').then(function (item) {
-          item.score = _self.score;
-         _self.$setItem('music', item );
-      });
+
+
+      this.$db.modifyItem('music','score',this.score);
+
       this.p = p.join(' ');
     }
   },
