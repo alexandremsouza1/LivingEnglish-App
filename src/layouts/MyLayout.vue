@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-pull-to-refresh @refresh="refresh">
-    <q-header elevated class="bg-red-5">
+    <q-header elevated class="bg-purple-6">
       <q-toolbar>
         <q-btn
           flat
@@ -37,10 +37,10 @@
         active-class="my-menu-link"
       >
         <q-item-section avatar>
-          <q-icon name="library_music" class="text-red-4"/>
+          <q-icon name="library_music" class="text-pink-13"/>
         </q-item-section>
 
-        <q-item-section class="text-red-4">Music</q-item-section>
+        <q-item-section class="text-pink-13">Music</q-item-section>
       </q-item>
 
       <q-item
@@ -51,10 +51,10 @@
         active-class="my-menu-link"
       >
         <q-item-section avatar>
-          <q-icon name="send" class="text-red-4"/>
+          <q-icon name="send" class="text-pink-13"/>
         </q-item-section>
 
-        <q-item-section class="text-red-4">Outbox</q-item-section>
+        <q-item-section class="text-pink-13">Outbox</q-item-section>
       </q-item>
 
       <q-item
@@ -65,10 +65,10 @@
         active-class="my-menu-link"
       >
         <q-item-section avatar>
-          <q-icon name="delete" class="text-red-4"/>
+          <q-icon name="delete" class="text-pink-13"/>
         </q-item-section>
 
-        <q-item-section class="text-red-4">Trash</q-item-section>
+        <q-item-section class="text-pink-13">Trash</q-item-section>
       </q-item>
       <q-separator spaced />
       
@@ -81,10 +81,10 @@
         active-class="my-menu-link"
       >
         <q-item-section avatar>
-          <q-icon name="settings" class="text-red-4"/>
+          <q-icon name="settings" class="text-pink-13"/>
         </q-item-section>
 
-        <q-item-section class="text-red-4">Settings</q-item-section>
+        <q-item-section class="text-pink-13">Settings</q-item-section>
       </q-item>
 
       <q-item
@@ -95,10 +95,10 @@
         active-class="my-menu-link"
       >
         <q-item-section avatar>
-          <q-icon name="help" class="text-red-4"/>
+          <q-icon name="help" class="text-pink-13"/>
         </q-item-section>
 
-        <q-item-section class="text-red-4">Help</q-item-section>
+        <q-item-section class="text-pink-13">Help</q-item-section>
       </q-item>
     </q-list>
     </q-drawer>
@@ -131,5 +131,5 @@ export default {
 <style lang="sass">
 .my-menu-link
   color: white
-  background: $blue-grey-4
+  background: $red-4
 </style>

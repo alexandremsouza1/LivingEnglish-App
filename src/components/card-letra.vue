@@ -19,15 +19,15 @@
                 <div class="q-mt-md text-center">
                 <div class="text-h6">Traduza a frase abaixo: </div>
                 <q-card-section>
-                      <q-input :value="item" autogrow>
+                      <q-input :value="item.orig" autogrow>
                           <template v-slot:append>
-                              <q-icon name="volume_up" @click="listen(item)"/>
+                              <q-icon name="volume_up" @click="listen(item.oring)"/>
                           </template> 
                       </q-input>
                 </q-card-section>    
                       <q-input v-model="answer" rounded outlined autogrow> 
                           <template v-slot:append>
-                              <q-icon name="check_circle" @click="verify(item)"/>
+                              <q-icon name="check_circle" @click="verify(index,item.orig)"/>
                           </template>
                       </q-input>
                       <q-card-section>
@@ -195,11 +195,13 @@ export default {
           });
       });
     },
-    async verify(txt){
+    async verify(index,txt){
       var traduzida = '';
       var p = [];
+      var _self = this;
       await this.t(txt).then(function(result){
               traduzida = result;
+              _self.$db.modifyItem('music','vet',index,traduzida);
       })
       var s1 = traduzida;
       var s2 = this.answer;

@@ -47,7 +47,7 @@ export default {
       music: {
         name : '',
         vet: [],
-        score: 0      
+        score_g: false      
       }
     }
   },
@@ -59,15 +59,31 @@ export default {
         let paste = e.clipboardData.getData('text')
         var lyrics = [];
         var arr = [];
-        setTimeout(() => {
+        var _self = this;
+        setTimeout(async() => {
             arr = paste.split("\n");
-            this.music.vet = arr;
+            await _self.setToVet(arr)
             if(this.music.vet.length !== 0){
               this.active =  true;
               this.$setItem('music', this.music);
             }
         }, 1000);
         
+    },
+    setToVet(arr){
+        var _self = this;
+         return new Promise(function(resolve,reject){
+            arr.forEach((val)=>{
+              _self.music.vet.push( 
+                  {
+                    orig: val,
+                    trad: '',
+                    score: 0
+                  }
+              )
+            });
+            resolve(_self.music);
+        })
     },
     add(){
       //  var __self = this;
@@ -91,7 +107,6 @@ export default {
         this.$setItem('music', arr)
     },
     loadmusic(){
-      debugger
       var _self = this;
       this.$getItem('music').then(function(value) {
         if(value.score == 0){
