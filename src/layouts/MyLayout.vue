@@ -37,10 +37,10 @@
         active-class="my-menu-link"
       >
         <q-item-section avatar>
-          <q-icon name="library_music" class="text-pink-13"/>
+          <q-icon name="library_music" class="text-purple"/>
         </q-item-section>
 
-        <q-item-section class="text-pink-13">Music</q-item-section>
+        <q-item-section class="text-purple">Music</q-item-section>
       </q-item>
 
       <q-item
@@ -51,10 +51,10 @@
         active-class="my-menu-link"
       >
         <q-item-section avatar>
-          <q-icon name="send" class="text-pink-13"/>
+          <q-icon name="send" class="text-purple"/>
         </q-item-section>
 
-        <q-item-section class="text-pink-13">Outbox</q-item-section>
+        <q-item-section class="text-purple">Outbox</q-item-section>
       </q-item>
 
       <q-item
@@ -65,10 +65,10 @@
         active-class="my-menu-link"
       >
         <q-item-section avatar>
-          <q-icon name="delete" class="text-pink-13"/>
+          <q-icon name="delete" class="text-purple"/>
         </q-item-section>
 
-        <q-item-section class="text-pink-13">Trash</q-item-section>
+        <q-item-section class="text-purple">Trash</q-item-section>
       </q-item>
       <q-separator spaced />
       
@@ -81,10 +81,10 @@
         active-class="my-menu-link"
       >
         <q-item-section avatar>
-          <q-icon name="settings" class="text-pink-13"/>
+          <q-icon name="settings" class="text-purple"/>
         </q-item-section>
 
-        <q-item-section class="text-pink-13">Settings</q-item-section>
+        <q-item-section class="text-purple">Settings</q-item-section>
       </q-item>
 
       <q-item
@@ -95,10 +95,10 @@
         active-class="my-menu-link"
       >
         <q-item-section avatar>
-          <q-icon name="help" class="text-pink-13"/>
+          <q-icon name="help" class="text-purple"/>
         </q-item-section>
 
-        <q-item-section class="text-pink-13">Help</q-item-section>
+        <q-item-section class="text-purple">Help</q-item-section>
       </q-item>
     </q-list>
     </q-drawer>
