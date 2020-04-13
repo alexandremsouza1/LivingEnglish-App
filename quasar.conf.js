@@ -54,7 +54,8 @@ module.exports = function (ctx) {
         'QDialog',
         'QCarousel',
         'QCarouselControl',
-        'QCarouselSlide'
+        'QCarouselSlide',
+        'QAvatar'
       ],
       directives: [
         'ClosePopup'

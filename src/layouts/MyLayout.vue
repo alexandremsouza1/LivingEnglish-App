@@ -29,6 +29,21 @@
      
       <q-list bordered padding class="rounded-borders text-primary">
       <q-item-label header>Menu</q-item-label>
+      <q-item>
+        <!-- icon="account_circle" -->
+        <!-- src="https://cdn.quasar.dev/img/avatar.png" -->
+          <q-avatar class="q-mx-xs" size="50px" >
+            <img v-if="true" src="~assets/account_circle.svg"/>
+            <!-- <q-badge floating color="teal">new</q-badge> -->
+          </q-avatar>
+        <q-item-section>
+          <q-item-label>Alexandre</q-item-label>
+          <q-item-label caption>Level 5</q-item-label>
+        </q-item-section>
+        <q-item-section side>
+          3 min ago
+        </q-item-section>
+      </q-item>
       <q-item
         clickable
         v-ripple
