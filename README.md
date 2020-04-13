@@ -26,6 +26,7 @@ cd vue-firebase-image-upload
 
 ### Build android cordova
 quasar dev -m android
+quasar build -m android
 
 npm install audio-sync-with-text --save //audiosync 
 
