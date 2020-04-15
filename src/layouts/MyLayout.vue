@@ -12,7 +12,9 @@
           aria-label="Menu"
         />
 
-        <q-toolbar-title>
+        <q-toolbar-title
+
+        >
           Living English
         </q-toolbar-title>
 
@@ -29,7 +31,7 @@
      
       <q-list bordered padding class="rounded-borders text-primary">
       <q-item-label header>Menu</q-item-label>
-      <q-item>
+      <q-item to='/login'> 
         <!-- icon="account_circle" -->
         <!-- src="https://cdn.quasar.dev/img/avatar.png" -->
           <q-avatar class="q-mx-xs" size="50px" >
@@ -47,6 +49,7 @@
       <q-item
         clickable
         v-ripple
+        to='/lyrics'
         :active="link === 'inbox'"
         @click="link = 'inbox'"
         active-class="my-menu-link"
