@@ -31,21 +31,25 @@
      
       <q-list bordered padding class="rounded-borders text-primary">
       <q-item-label header>Menu</q-item-label>
+      <q-item-section>
       <q-item to='/login'> 
         <!-- icon="account_circle" -->
         <!-- src="https://cdn.quasar.dev/img/avatar.png" -->
           <q-avatar class="q-mx-xs" size="50px" >
-            <img v-if="true" src="~assets/account_circle.svg"/>
+            <img v-if="true" :src="this.user.picture"/>
+            <!-- <img :src="require( `../assets/${this.user.picture}.svg`)"/> -->
             <!-- <q-badge floating color="teal">new</q-badge> -->
           </q-avatar>
         <q-item-section>
-          <q-item-label>Alexandre</q-item-label>
-          <q-item-label caption>Level 5</q-item-label>
+          <q-item-label>{{this.user.name}}</q-item-label>
         </q-item-section>
-        <q-item-section side>
-          3 min ago
+        <q-item-section side class="absolute-bottom q-mr-xs">
+           <q-item-label caption>Seen 3 seconds ago</q-item-label>
+          <q-item-label caption class="q-mr-xs">Level : {{this.user.level}}</q-item-label>
         </q-item-section>
       </q-item>
+      </q-item-section>
+      <q-separator spaced />
       <q-item
         clickable
         v-ripple
@@ -129,6 +133,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'MyLayout',
 
@@ -137,6 +142,11 @@ export default {
       leftDrawerOpen: false,
       link: 'inbox'
     }
+  },
+  computed: {
+  ...mapGetters({
+      user: 'user_config/user'
+    }),
   },
   methods:{
     refresh(done){
