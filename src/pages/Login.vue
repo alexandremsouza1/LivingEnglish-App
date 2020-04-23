@@ -91,10 +91,21 @@ export default {
       return false
     },
     async loginSocial() {
+      var _self = this;
       const googleAuthProvider = this.$firebase.auth.GoogleAuthProvider;
-      await this.$firebase.auth().signInWithPopup(new googleAuthProvider).then(function(result){
-        console.log(result)
-      });
+      await this.$firebase.auth().signInWithPopup(new googleAuthProvider).then(function({additionalUserInfo,credential}){
+        _self.$store.dispatch('user_config/saveUser', {
+                user: {
+                  'name':additionalUserInfo.profile.given_name,
+                  'email':additionalUserInfo.profile.email,
+                  'picture':additionalUserInfo.profile.picture,
+                  'token':credential.access_token,
+                  'level':0
+                  }
+            })
+      }).catch((error) => {
+        window.alert(error)
+      })
     }
   }
 
