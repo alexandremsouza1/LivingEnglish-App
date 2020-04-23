@@ -46,7 +46,7 @@
               class="full-width"
               :label="$t('Login with Google')"
               outline
-              @click="loginSocial('google','http://localhost:8080/')"
+              @click="loginSocial()"
               icon="img:statics/google.png"
             />
           </q-card-actions>
@@ -90,31 +90,11 @@ export default {
     login() {
       return false
     },
-    loginSocial(provider,redirect) {
-        var _self = this
-        const hello = this.$hello(provider);
-        hello.login({
-            scope: 'email',
-            force: true,
-            redirect_uri: redirect
-        }).then(() => {
-            console.log(hello)
-            const authRes = hello.getAuthResponse()
-            console.log('authGoogle => authRes', authRes)
-            hello.api('me').then(json => {
-                  var {given_name,email,thumbnail} = json
-                 _self.$store.dispatch('user_config/saveUser', {
-                    user: {
-                      'name':given_name,
-                      'email':email,
-                      'picture':thumbnail,
-                      'token':authRes.access_token,
-                      'level':0
-                      }
-                })
-                _self.$router.push('/')
-          })
-        })
+    async loginSocial() {
+      const googleAuthProvider = this.$firebase.auth.GoogleAuthProvider;
+      await this.$firebase.auth().signInWithPopup(new googleAuthProvider).then(function(result){
+        console.log(result)
+      });
     }
   }
 
