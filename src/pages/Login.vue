@@ -103,7 +103,7 @@ export default {
                   'level':0
                   }
             })
-            this.$firebase.auth().getRedirectResult();
+            _self.$firebase.auth().getRedirectResult();
         }).catch(function(error) {
            window.alert(error)
       });
