@@ -94,34 +94,19 @@ export default {
       var _self = this;
       const googleAuthProvider = this.$firebase.auth.GoogleAuthProvider;
       this.$firebase.auth().signInWithRedirect(new googleAuthProvider).then(function() {
-
-          return this.$firebase.auth().getRedirectResult();
-
-        }).then(function({additionalUserInfo,credential}) {
-
          _self.$store.dispatch('user_config/saveUser', {
-
                 user: {
-
                   'name':additionalUserInfo.profile.given_name,
-
                   'email':additionalUserInfo.profile.email,
-
                   'picture':additionalUserInfo.profile.picture,
-
                   'token':credential.access_token,
-
                   'level':0
-
                   }
-
             })
-
+            this.$firebase.auth().getRedirectResult();
         }).catch(function(error) {
-
            window.alert(error)
-
-      });window.alert(error)
+      });
     }
   }
 
