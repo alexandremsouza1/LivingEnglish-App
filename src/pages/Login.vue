@@ -94,7 +94,11 @@ export default {
       var _self = this;
       const googleAuthProvider = this.$firebase.auth.GoogleAuthProvider;
       this.$firebase.auth().signInWithRedirect(new googleAuthProvider).then(function() {
-         _self.$store.dispatch('user_config/saveUser', {
+        return this.$firebase.auth().getRedirectResult();
+      }).then(function(result) {
+        console.log(result)
+       _self.$store.dispatch('user_config/saveUser', {
+                /*
                 user: {
                   'name':additionalUserInfo.profile.given_name,
                   'email':additionalUserInfo.profile.email,
@@ -102,10 +106,16 @@ export default {
                   'token':credential.access_token,
                   'level':0
                   }
+                  */
             })
-            _self.$firebase.auth().getRedirectResult();
-        }).catch(function(error) {
-           window.alert(error)
+        var token = result.credential.accessToken;
+        var user = result.user;
+        window.alert('Login success!! Welcome:' + result.user );
+      }).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        window.alert('Login error!! error:' + errorMessage );
       });
     }
   }

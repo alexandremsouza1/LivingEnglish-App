@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Projeto para aprender ingles rapido e divertido",
   "productName": "livingEnglish",
-  "cordovaId": "living-english-274111.firebaseapp.com",
+  "cordovaId": "br.com.livingenglish.quasar",
   "capacitorId": "",
   "author": "alexandremsouza1 <pedestaljunior@gmail.com>",
   "private": true,

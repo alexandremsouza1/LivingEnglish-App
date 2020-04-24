@@ -4,7 +4,8 @@
 node_modules
 /dist
 /src-cordova/node_modules
-/src-cordova/platforms
+/src-cordova/platforms/*
+!/src-cordova/platforms/android/app/google-services.json
 /src-cordova/plugins
 /src-cordova/www/*
 !/src-cordova/www/screen
