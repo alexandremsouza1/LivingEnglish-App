@@ -8,7 +8,7 @@
     <content src="index.html" />
     <universal-links>
         <host name="livingenglish.page.link" scheme="https" />
-        <host name="br.com.livingenglish.quasar" scheme="https">
+        <host name="living-english-274111.firebaseapp.com" scheme="https">
             <path url="/__/auth/callback" />
         </host>
     </universal-links>

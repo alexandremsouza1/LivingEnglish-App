@@ -94,11 +94,9 @@ export default {
       var _self = this;
       const googleAuthProvider = this.$firebase.auth.GoogleAuthProvider;
       this.$firebase.auth().signInWithRedirect(new googleAuthProvider).then(function() {
-        return this.$firebase.auth().getRedirectResult();
-      }).then(function(result) {
-        console.log(result)
+        return _self.$firebase.auth().getRedirectResult();
+      }).then(function({additionalUserInfo,credential}) {
        _self.$store.dispatch('user_config/saveUser', {
-                /*
                 user: {
                   'name':additionalUserInfo.profile.given_name,
                   'email':additionalUserInfo.profile.email,
@@ -106,11 +104,7 @@ export default {
                   'token':credential.access_token,
                   'level':0
                   }
-                  */
             })
-        var token = result.credential.accessToken;
-        var user = result.user;
-        window.alert('Login success!! Welcome:' + result.user );
       }).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
