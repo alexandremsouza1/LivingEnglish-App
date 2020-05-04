@@ -59,7 +59,7 @@
               <div class="fixed-bottom-right q-mr-lg text-teal-4">
                 <div
                   class="teal"
-                  @click="$router.push('/register')"
+                  @click="register()"
                 >
                   Register New Account
                 </div>
@@ -75,6 +75,17 @@
         </q-card>
       </div>
     </div>
+          <q-dialog v-model="alert.visible" persistent>
+            <q-card>
+              <q-card-section class="row items-center">
+                <q-avatar :icon="alert.icon" color="primary" text-color="white" />
+                <span class="q-ml-sm">{{alert.msg}}</span>
+              </q-card-section>
+              <q-card-actions align="right">
+                <q-btn flat label="OK" color="primary" v-close-popup />
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
   </div>
 </template>
 <script>
@@ -82,13 +93,38 @@ export default {
   data () {
     return {
       email:'',
-      password: ''
+      password: '',
+      alert: {
+        visible:false,
+        icon:'',
+        msg:''
+      }
     }
 
   },
   methods:{
-    login() {
-      return false
+    login(){
+      var _self = this;
+      this.$firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(function(response){
+        _self.$router.push('/');
+      }).catch(function(error) {
+        // Handle Errors here.
+        _self.alert.visible = true;
+        _self.alert.icon = 'warning';
+        _self.alert.msg = error.message;
+        //_self.msg = 'Your password are wrong or user not registred. Try again!';
+        //window.alert(error.message);
+        // ...
+      });
+    },
+    register() {
+      this.$firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(function(response){
+        _self.$router.push('/');
+      }).catch(function(error) {
+        _self.alert.visible = true;
+        _self.alert.icon = 'error';
+        _self.alert.msg = error.message;
+        })
     },
     loginSocial() {
       var _self = this;
@@ -105,6 +141,7 @@ export default {
                   'level':0
                   }
             })
+        _self.$router.push('/');
       }).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;

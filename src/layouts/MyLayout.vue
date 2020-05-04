@@ -148,6 +148,19 @@ export default {
       user: 'user_config/user'
     }),
   },
+  created() {
+    var _self = this;
+    this.$firebase.auth().onAuthStateChanged(function(user_auth) {;
+        console.log(user_auth)
+        if (user_auth) {
+          _self.$store.dispatch('user_config/saveUser', {
+                    user_auth
+          })
+        } else {
+          // No user is signed in.
+        }
+    })
+  },
   methods:{
     refresh(done){
       window.location.reload()
