@@ -1,5 +1,20 @@
 <template>
   <div>
+    <q-input
+      v-model="busca"
+      filled
+      label="Search Lyrics"
+      v-if="true" 
+      @blur="focoBusca" 
+      @keydown="filteredItems" 
+      autofocus
+    >
+    <template v-slot:append>
+      <q-icon name="search" />
+    </template>
+    <track-item v-for="track in tracks" :key="track.track.track_id" :track="track">
+    </track-item>
+  </q-input>
     <div >
     <q-input
       v-model="text"
@@ -33,14 +48,18 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
+import TrackItem from 'src/components/trackitem'
 import cardLetra  from "src/components/card-letra";
 import {t,falar} from 'src/plugins/translate.js'
 export default {
     components:{
-      cardLetra
+      cardLetra,TrackItem
   },
   data () {
     return {
+      tracks:[],
+      busca:'',
       text: '',
       score:0,
       active: false,
@@ -52,9 +71,20 @@ export default {
     }
   },
   mounted(){
-   this.loadmusic()
+   //this.loadmusic()
   },
   methods:{
+    focoBusca(){
+    //this.ListarTodos();  
+    //this.search = false;
+    },
+    async filteredItems() {
+      await axios.get('https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.search?q_track='+this.busca+'&page_size=12&page=1&s_track_rating=desc&apikey=4b7f42e95eff356453a45073f87f0954')
+            .then(res =>{
+                this.tracks = res.data.message.body.track_list
+            })
+            .catch(error => console.log(error))
+    },
     paste(e) {
         let paste = e.clipboardData.getData('text')
         var lyrics = [];
