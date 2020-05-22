@@ -46,8 +46,19 @@ export default {
         this.$q.loading.show();
         await axios.get('https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id='+id+'&apikey=4b7f42e95eff356453a45073f87f0954')
         .then(res =>{
-          console.log(res)
-          console.log(res.data.message.body.lyrics.lyrics_body)
+          try{
+          setTimeout(async() => {
+              let arr = res.data.message.body.lyrics.lyrics_body.split("\n");
+              let music = {
+                orig : arr,
+                vet : arr
+              }
+              this.$setItem('music', music);
+    
+        }, 1000);
+          }catch(err){
+            console.log(err)
+          }
            _self.$q.loading.hide();
         })
         .catch(error => console.log(error))

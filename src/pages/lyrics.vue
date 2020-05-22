@@ -6,7 +6,7 @@
       label="Search Lyrics"
       v-if="true" 
       @blur="focoBusca" 
-      @keydown="filteredItems" 
+      @keydown.stop="handleSearch" 
       autofocus
     >
     <template v-slot:append>
@@ -49,6 +49,7 @@
 </template>
 <script>
 import axios from 'axios';
+import _ from 'lodash';
 import TrackItem from 'src/components/trackitem'
 import cardLetra  from "src/components/card-letra";
 import {t,falar} from 'src/plugins/translate.js'
@@ -65,23 +66,51 @@ export default {
       active: false,
       music: {
         name : '',
-        vet: [],
+        oring: [],
         score_g: false      
       }
     }
   },
   mounted(){
-   //this.loadmusic()
+   this.loadmusic()
   },
   methods:{
     focoBusca(){
     //this.ListarTodos();  
     //this.search = false;
     },
+    handleSearch: _.debounce(function() {
+      this.preApiCall();
+    }, 300),
+
+    preApiCall() {
+      if (typeof cancel != "undefined") {
+        cancel();
+        console.log("cancelled");
+      } 
+      this.filteredItems();
+    },
     async filteredItems() {
+      var cancel;
+      var CancelToken = axios.CancelToken;
       var _self = this;
       this.$q.loading.show();
-      await axios.get('https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.search?q_track='+this.busca+'&page_size=12&page=1&s_track_rating=desc&apikey=4b7f42e95eff356453a45073f87f0954')
+      await axios(
+        {
+          method: "get",
+          url: "https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.search",
+          cancelToken: new CancelToken(function executor(c) {
+            cancel = c;
+          }),
+          params: {
+            q_track: this.busca,
+            page_size:12,
+            page:1,
+            s_track_rating:"desc",
+            apikey:"4b7f42e95eff356453a45073f87f0954"
+          }
+        })
+        //'https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.search?q_track='+this.busca+'&page_size=12&page=1&s_track_rating=desc&apikey=4b7f42e95eff356453a45073f87f0954')
       .then(res =>{
           _self.tracks = res.data.message.body.track_list
           _self.$q.loading.hide();
@@ -113,7 +142,7 @@ export default {
             arr.forEach((val)=>{
               _self.music.vet.push( 
                   {
-                    orig: val,
+                    oring: val,
                     trad: '',
                     score: 0
                   }

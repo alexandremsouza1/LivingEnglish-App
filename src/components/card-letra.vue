@@ -232,7 +232,7 @@ export default {
     }
   },
   mounted: function () {
-   //console.log(this.all_frases)
+   console.log(this.all_frases)
   }
 }
 </script>
