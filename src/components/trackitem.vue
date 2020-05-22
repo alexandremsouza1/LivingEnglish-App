@@ -1,9 +1,9 @@
 <template>
-<div class="q-pa-md" style="max-width: 350px">
-    <q-list bordered class="rounded-borders" style="max-width: 360px">
+<div class="q-pa-md" @click="choiseSong(track)">
+    <q-list bordered class="rounded-borders" style="max-width: 100%">
       <q-item>
         <q-item-section avatar>
-          <q-icon name="account_tree" color="black" size="34px" />
+          <q-icon name="queue_music" color="black" size="34px" />
         </q-item-section>
 
         <q-item-section>
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     name:'track-item',
     props: {
@@ -35,6 +36,22 @@ export default {
             type: Object,
             required: true,
         }
+    },
+    methods:{
+      choiseSong(track){
+        this.getSong(track.track.track_id);
+      },
+      async getSong(id) {
+        var _self = this;
+        this.$q.loading.show();
+        await axios.get('https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id='+id+'&apikey=4b7f42e95eff356453a45073f87f0954')
+        .then(res =>{
+          console.log(res)
+          console.log(res.data.message.body.lyrics.lyrics_body)
+           _self.$q.loading.hide();
+        })
+        .catch(error => console.log(error))
+      }
     }
 }
 </script>
