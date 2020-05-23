@@ -25,7 +25,7 @@
       @paste.native="paste"
     />
     <card-letra 
-    :all_frases="this.music.vet"
+    :all_frases="this.music"
     :active="this.active"
     ></card-letra>
     </div>
@@ -54,6 +54,7 @@ import TrackItem from 'src/components/trackitem'
 import cardLetra  from "src/components/card-letra";
 import {t,falar} from 'src/plugins/translate.js'
 export default {
+    name:'lyrics',
     components:{
       cardLetra,TrackItem
   },
@@ -67,6 +68,7 @@ export default {
       music: {
         name : '',
         oring: [],
+        trad: [],
         score_g: false      
       }
     }
@@ -84,7 +86,7 @@ export default {
     }, 300),
 
     preApiCall() {
-      if (typeof cancel != "undefined") {
+      if (typeof cancel == "function") {
         cancel();
         console.log("cancelled");
       } 
@@ -128,8 +130,9 @@ export default {
         var _self = this;
         setTimeout(async() => {
             arr = paste.split("\n");
-            await _self.setToVet(arr)
-            if(this.music.vet.length !== 0){
+            _self.music.oring = arr;
+            //await _self.setToVet(arr)
+            if(arr.length !== 0){
               this.active =  true;
               this.$setItem('music', this.music);
             }
@@ -140,7 +143,7 @@ export default {
         var _self = this;
          return new Promise(function(resolve,reject){
             arr.forEach((val)=>{
-              _self.music.vet.push( 
+              _self.music.oring.push( 
                   {
                     oring: val,
                     trad: '',
@@ -175,12 +178,8 @@ export default {
     loadmusic(){
       var _self = this;
       this.$getItem('music').then(function(value) {
-        if(value.score == 0){
-          _self.$removeItem('music');
-          return false;
-        }
-        _self.music.vet = value.vet;
-        if(_self.music.vet.length == 0){
+        _self.music.oring = value.oring;
+        if(_self.music.oring.length == 0){
             _self.text = "Cole sua música aqui!"
         }else{
             _self.active =  true;

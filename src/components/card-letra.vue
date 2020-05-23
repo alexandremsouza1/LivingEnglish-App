@@ -11,7 +11,7 @@
         height="auto"
         class="bg-white shadow-1 rounded-borders"
       >
-        <q-carousel-slide v-for="(item,index) in all_frases" v-bind:key="index-1" :name="index" class="column no-wrap flex-center">
+        <q-carousel-slide v-for="(item,index) in all_frases.oring" v-bind:key="index-1" :name="index" class="column no-wrap flex-center">
             <q-card-section>
                 <div class="q-mt-md text-center">
                     <q-icon name="g_translate" color="primary" size="56px"/>
@@ -19,21 +19,21 @@
                 <div class="q-mt-md text-center">
                 <div class="text-h6">Traduza a frase abaixo: </div>
                 <q-card-section>
-                      <q-input :value="item.orig" autogrow>
+                      <q-input :value="item" autogrow>
                           <template v-slot:append>
-                              <q-icon name="volume_up" @click="listen(item.oring)"/>
+                              <q-icon name="volume_up" @click="listen(item)"/>
                           </template> 
                       </q-input>
                 </q-card-section>    
                       <q-input v-model="answer" rounded outlined autogrow> 
                           <template v-slot:append>
-                              <q-icon name="check_circle" @click="verify(index,item.orig)"/>
+                              <q-icon name="check_circle" @click="verify(index,item)"/>
                           </template>
                       </q-input>
                       <q-card-section>
                         <div v-html="p"></div>.
                         <div class="q-mt-md text-center">
-                          <p><i>Página {{index + 1}} de {{all_frases.length}}</i></p>
+                          <p><i>Página {{index + 1}} de {{all_frases.oring.length}}</i></p>
                         </div>
                       </q-card-section>
                  </div>
@@ -147,6 +147,7 @@
 <script>
 import googleTranslate from 'google-translate';
 export default {
+  name:'card',
   props: ['all_frases','active'],
   data () {
     return {

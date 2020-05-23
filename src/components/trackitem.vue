@@ -54,6 +54,7 @@ export default {
                 vet : arr
               }
               this.$setItem('music', music);
+              this.$emit('loadMusic')
     
         }, 1000);
           }catch(err){
