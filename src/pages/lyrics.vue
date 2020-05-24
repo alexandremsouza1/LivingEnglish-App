@@ -69,12 +69,12 @@ export default {
         name : '',
         oring: [],
         trad: [],
-        score_g: false      
+        score_g: 0      
       }
     }
   },
-  mounted(){
-   this.loadmusic()
+  async mounted(){
+   await this.loadmusic()
   },
   methods:{
     focoBusca(){
@@ -129,30 +129,21 @@ export default {
         var arr = [];
         var _self = this;
         setTimeout(async() => {
+           _self.music.score_g = 0;
             arr = paste.split("\n");
+            arr.forEach(element => {
+              _self.music.score_g+=this.wordCount(element)
+            });
             _self.music.oring = arr;
-            //await _self.setToVet(arr)
             if(arr.length !== 0){
-              this.active =  true;
               this.$setItem('music', this.music);
+              this.active = true;
             }
         }, 1000);
         
     },
-    setToVet(arr){
-        var _self = this;
-         return new Promise(function(resolve,reject){
-            arr.forEach((val)=>{
-              _self.music.oring.push( 
-                  {
-                    oring: val,
-                    trad: '',
-                    score: 0
-                  }
-              )
-            });
-            resolve(_self.music);
-        })
+    wordCount(str) { 
+      return str.split(" ").length;
     },
     add(){
       //  var __self = this;
@@ -178,11 +169,11 @@ export default {
     loadmusic(){
       var _self = this;
       this.$getItem('music').then(function(value) {
-        _self.music.oring = value.oring;
-        if(_self.music.oring.length == 0){
-            _self.text = "Cole sua música aqui!"
+        if(value.oring.length == 0){
+          _self.text = "Cole sua música aqui!"
         }else{
-            _self.active =  true;
+            _self.music.oring = value.oring;
+            _self.active = true;
         }
       }).catch(function(err) {
           console.log(err);
