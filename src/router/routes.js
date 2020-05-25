@@ -5,8 +5,8 @@ const routes = [
     component: () => import('layouts/MyLayout.vue'),
     children: [
       { name:'login', path: 'login', component: () => import('pages/Login.vue') },
-      { name: 'lyrics', path: 'lyrics', component: () => import('pages/lyrics.vue') }
-      //{ path: 'lyrics', component: () => import('pages/lyrics.vue') }
+      { name: 'music', path: 'lyrics', component: () => import('pages/Musics.vue') },
+      { name: 'lyrics', path: 'paste', component: () => import('pages/lyrics.vue') }
     ]
   }
 ]

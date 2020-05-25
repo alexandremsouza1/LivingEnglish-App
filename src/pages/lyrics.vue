@@ -1,18 +1,5 @@
 <template>
   <div>
-    <q-input
-      v-model="busca"
-      filled
-      label="Search Lyrics"
-      v-if="true" 
-      @blur="focoBusca" 
-      @keydown.stop="handleSearch" 
-      autofocus
-    >
-    <template v-slot:append>
-      <q-icon name="search" />
-    </template>
-  </q-input>
     <div >
     <track-item v-for="track in tracks" :key="track.track.track_id" :track="track">
     </track-item>
@@ -61,7 +48,6 @@ export default {
   data () {
     return {
       tracks:[],
-      busca:'',
       text: '',
       score:0,
       active: false,
