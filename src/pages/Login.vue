@@ -132,7 +132,7 @@ export default {
       this.$firebase.auth().signInWithRedirect(new googleAuthProvider).then(function() {
         return _self.$firebase.auth().getRedirectResult();
       }).then(function({additionalUserInfo,credential}) {
-       _self.$store.dispatch('user_config/saveUser', {
+       _self.$store.dispatch('userConfig/saveUser', {
                 user: {
                   'name':additionalUserInfo.profile.given_name,
                   'email':additionalUserInfo.profile.email,

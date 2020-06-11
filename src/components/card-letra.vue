@@ -4,6 +4,7 @@
       <q-carousel
         animated
         v-model="slide"
+        @transition="finishLetra"
         control-color="primary"
         arrows
         padding
@@ -172,6 +173,12 @@ export default {
     }
   }, 
   methods:{
+    finishLetra(n,o){
+      //TODO - CARREGAR O LYRICS CORRETAMENTE DO VUEX
+      this.$db.setLyric();
+      console.log(o)
+      console.log(n)
+    },
     clearValues(){
       this.p = '';
       this.answer = '';

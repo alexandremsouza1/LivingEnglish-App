@@ -14,6 +14,13 @@ var db = class Persistence extends Vue{
         })
     }
 
+    setLyric(lyric){
+        this.$store.dispatch('lyric/saveLyric', {
+            lyric
+        })
+        this.$setItem('music', lyric);
+    }
+
 }
 
 

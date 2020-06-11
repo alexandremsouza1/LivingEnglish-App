@@ -145,7 +145,7 @@ export default {
   },
   computed: {
   ...mapGetters({
-      user: 'user_config/user'
+      user: 'userConfig/user'
     }),
   },
   created() {
@@ -153,7 +153,7 @@ export default {
     this.$firebase.auth().onAuthStateChanged(function(user_auth) {;
         console.log(user_auth)
         if (user_auth) {
-          _self.$store.dispatch('user_config/saveUser', {
+          _self.$store.dispatch('userConfig/saveUser', {
                     user_auth
           })
         } else {
