@@ -18,7 +18,8 @@
     "hellojs": "^1.18.4",
     "quasar": "^1.11.3",
     "vue-i18n": "^8.0.0",
-    "vue-localforage": "^0.2.5"
+    "vue-localforage": "^0.2.5",
+    "vue-uuid": "^2.0.2"
   },
   "devDependencies": {
     "@quasar/app": "^1.8.10",

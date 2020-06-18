@@ -175,7 +175,7 @@ export default {
   methods:{
     finishLetra(n,o){
       //TODO - CARREGAR O LYRICS CORRETAMENTE DO VUEX
-      this.$db.setLyric();
+      this.$db.setLyric(all_frases);
       console.log(o)
       console.log(n)
     },

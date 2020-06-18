@@ -52,10 +52,16 @@ export default {
       score:0,
       active: false,
       music: {
-        name : '',
-        oring: [],
-        trad: [],
-        score_g: 0      
+          id: '',
+          nome:'',
+          idUser:'',
+          original:[],
+          traducao: [],
+          pontuacao_max: 0,
+          pontuacao_atingida:0,
+          status:'pendente',
+          idioma: [],
+          ciclo:0     
       }
     }
   },
@@ -114,15 +120,21 @@ export default {
         var lyrics = [];
         var arr = [];
         var _self = this;
+        var conunter = 0
         setTimeout(async() => {
            _self.music.score_g = 0;
             arr = paste.split("\n");
             arr.forEach(element => {
-              _self.music.score_g+=this.wordCount(element)
+              conunter+=this.wordCount(element)
             });
-            _self.music.oring = arr;
+            _self.prepareMusic(
+              {
+                'id': this.$uuid.v1(),
+                'pontuacao_max' : conunter,
+                'original': arr
+              }
+              );
             if(arr.length !== 0){
-              this.$setItem('music', this.music);
               this.active = true;
             }
         }, 1000);
@@ -188,6 +200,13 @@ export default {
             }
         }
         this.score = Math.trunc(5 * (this.score / s1Parts.length));
+    },
+    prepareMusic(array){
+      var _self = this;
+      Object.keys(array).forEach(function(x,y){
+        _self.music[x] = Object.values(array)[y];
+      })
+      this.$db.setLyric.apply(this,[this.music]);
     }
 }
 }
