@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters,mapActions} from 'vuex'
 export default {
   name: 'MyLayout',
 
@@ -150,6 +150,9 @@ export default {
   },
   created() {
     var _self = this;
+    this.$getItem('music').then(function(value) {
+    _self.loadmusic(value)
+    });
     this.$firebase.auth().onAuthStateChanged(function(user_auth) {;
         console.log(user_auth)
         if (user_auth) {
@@ -162,6 +165,9 @@ export default {
     })
   },
   methods:{
+    ...mapActions({
+      loadmusic: 'lyrics/saveLyric',
+    }),
     refresh(done){
       window.location.reload()
       done();

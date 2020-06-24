@@ -3,7 +3,8 @@ export default {
     namespaced: true,
     // state
     state: {
-        lyric:{
+        lyric:[
+          {
             id: '',
             nome:'',
             idUser:'',
@@ -13,25 +14,26 @@ export default {
             pontuacao_atingida:0,
             status:'pendente',
             idioma: [],
-            ciclo:0   
-        } 
+            ciclo:0
+          }
+      ]
     },
   
     // getters
     getters: {
-        lyric: state => lyric
+        lyric: state => state.lyric
     },
   
     // mutations
     mutations: {
       SET_LYRIC (state, lyric) {
-        state.lyric = lyric
+        state.lyric.push(lyric)
       }
     },
   
     // actions
     actions: {
-      saveLyric ({ commit }, { lyric }) {
+      saveLyric ({ commit }, lyric ) {
         commit('SET_LYRIC', lyric)
       }
     }

@@ -12,6 +12,8 @@
       <q-icon name="search" />
     </template>
     </q-input>
+  <track-item v-for="track in validTracks" :key="track.id" :track="track">
+  </track-item>
      <q-btn
         round
         color="red"
@@ -35,13 +37,26 @@
   </div>
 </template>
 <script>
+import TrackItem from 'src/components/trackitem'
+import { mapGetters } from 'vuex'
 export default {
   name: "Musics",
+  components:{
+    TrackItem
+  },
   data () {
     return {
       tab: 'pending',
       busca:'',
     }
+  },
+  computed: {
+  ...mapGetters({
+      tracks: 'lyrics/lyric'
+    }),
+    validTracks: function () {
+      return Object.values(this.tracks).filter(i => i.id !== '');
+  },
   }
 }
 </script>
