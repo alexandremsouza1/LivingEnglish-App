@@ -1,5 +1,10 @@
 <template>
 <div class="q-pa-md" @click="choiseSong(track)">
+    <card-letra 
+    :all_frases="this.music"
+    :active="this.active"
+    @update-active="update"
+    ></card-letra>
     <q-list bordered class="rounded-borders" style="max-width: 100%">
       <q-item>
         <q-item-section avatar>
@@ -28,18 +33,33 @@
 </template>
 
 <script>
+import cardLetra  from "src/components/card-letra";
 import axios from 'axios';
 export default {
     name:'track-item',
+     components:{
+      cardLetra
+  },
     props: {
         track: {
             type: Object,
             required: true,
         }
     },
+    data () {
+     return {
+      music: {},
+      active:false
+     }
+    },
     methods:{
+      update(state){
+        this.active = state
+      },
       choiseSong(track){
-        this.getSong(track.track.track_id);
+        this.music = track;
+        this.active = true;
+        //this.getSong(track.track.track_id);
       },
       async getSong(id) {
         var _self = this;

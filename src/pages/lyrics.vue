@@ -11,10 +11,6 @@
       @select.native="logSelectionWithinInput($event)"
       @paste.native="paste"
     />
-    <card-letra 
-    :all_frases="this.music"
-    :active="this.active"
-    ></card-letra>
     </div>
     <!-- <q-btn
       round
@@ -50,7 +46,6 @@ export default {
       tracks:[],
       text: '',
       score:0,
-      active: false,
       music: {
           id: '',
           nome:'',
@@ -137,6 +132,7 @@ export default {
             if(arr.length !== 0){
               this.active = true;
             }
+            this.$router.push('/lyrics');
         }, 1000);
         
     },

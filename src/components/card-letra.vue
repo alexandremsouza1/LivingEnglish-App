@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-dialog v-model="active">
+    <q-dialog v-model="activated">
       <q-carousel
         animated
         v-model="slide"
@@ -12,7 +12,7 @@
         height="auto"
         class="bg-white shadow-1 rounded-borders"
       >
-        <q-carousel-slide v-for="(item,index) in all_frases.oring" v-bind:key="index-1" :name="index" class="column no-wrap flex-center">
+        <q-carousel-slide v-for="(item,index) in all_frases.original" v-bind:key="index-1" :name="index" class="column no-wrap flex-center">
             <q-card-section>
                 <div class="q-mt-md text-center">
                     <q-icon name="g_translate" color="primary" size="56px"/>
@@ -34,7 +34,7 @@
                       <q-card-section>
                         <div v-html="p"></div>.
                         <div class="q-mt-md text-center">
-                          <p><i>Página {{index + 1}} de {{all_frases.oring.length}}</i></p>
+                          <p><i>Página {{index + 1}} de {{all_frases.original.length}}</i></p>
                         </div>
                       </q-card-section>
                  </div>
@@ -167,6 +167,16 @@ export default {
       slideVibration: 63
     }
   },
+  computed:{
+    activated: {
+           get(){
+             return this.active
+           },
+           set(active){
+             this.$emit("update-active", false);
+           } 
+        }
+  },
   watch:{
     'slide': function (val) {
        this.clearValues()
@@ -175,7 +185,7 @@ export default {
   methods:{
     finishLetra(n,o){
       //TODO - CARREGAR O LYRICS CORRETAMENTE DO VUEX
-      this.$db.setLyric(all_frases);
+      //this.$db.setLyric(all_frases);
       console.log(o)
       console.log(n)
     },
@@ -240,6 +250,7 @@ export default {
     }
   },
   mounted: function () {
+    this.activated =  this.active;
    console.log(this.all_frases)
   }
 }

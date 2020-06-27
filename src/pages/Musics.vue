@@ -55,8 +55,8 @@ export default {
       tracks: 'lyrics/lyric'
     }),
     validTracks: function () {
-      return Object.values(this.tracks).filter(i => i.id !== '');
-  },
+      return Object.values(this.tracks).filter(i => i !== null && i.id !== '');
+    }
   }
 }
 </script>
