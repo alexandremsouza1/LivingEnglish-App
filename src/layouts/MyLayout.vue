@@ -151,7 +151,9 @@ export default {
   created() {
     var _self = this;
     this.$getItem('music').then(function(value) {
-    _self.loadmusic(value)
+      value.forEach(element => {
+        _self.loadmusic(element) 
+      });
     });
     this.$firebase.auth().onAuthStateChanged(function(user_auth) {;
         console.log(user_auth)

@@ -16,9 +16,11 @@ var db = class Persistence extends Vue{
 
     setLyric(lyric){
         this.$store.dispatch('lyrics/saveLyric', {
-            lyric
+            ...lyric
         })
-        this.$setItem('music', lyric);
+        let aux = this.$store.getters['lyrics/lyric']
+        aux = aux.filter(i => i !== null && i.id !== '');
+        this.$setItem('music', aux);
     }
 
 }
