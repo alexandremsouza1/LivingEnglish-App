@@ -14,7 +14,7 @@
         <q-item-section>
           <q-item-label lines="1">
             <span class="text-weight-medium">{{ track.nome}}</span>
-            <span class="text-grey-8"> - {{ track.pontuacao_atingida }}</span>
+            <!--<span class="text-grey-8"> - {{ track.pontuacao_atingida }}</span> -->
           </q-item-label>
           <q-item-label caption lines="1">
             <!-- {{ track.track.album_name }} -->
@@ -27,7 +27,14 @@
   
       </q-item>
       <q-separator spaced />
-
+      <div class="q-gutter-y-md column q-mx-md">
+      <q-rating
+          v-model="track.pontuacao_atingida"
+          size="2em"
+          color="yellow"
+          readonly
+        />
+      </div>
     </q-list>
   </div>
 </template>

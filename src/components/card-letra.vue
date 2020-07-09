@@ -219,7 +219,7 @@ export default {
       var _self = this;
       await this.t(txt).then(function(result){
               traduzida = result;
-              _self.$db.modifyItem('music','vet',index,traduzida);
+              _self.$db.modifyItem.apply(_self,[_self.all_frases.id,'traducao',traduzida])
       })
       var s1 = traduzida;
       var s2 = this.answer;
@@ -242,10 +242,7 @@ export default {
                 console.log(err);
           }
       }
-
-
-      this.$db.modifyItem('music','score',this.score);
-
+      this.$db.modifyItem.apply(_self,[_self.all_frases.id,'score_g',this.score])
       this.p = p.join(' ');
     }
   },

@@ -29,9 +29,9 @@
         align="center"
         class="bg-purple text-white shadow-2 fixed-bottom"
       >
-        <q-tab name="pending" label="Pending" icon="history" />
+        <q-tab name="pendente" label="Pending" icon="history" />
         <q-separator vertical inset class="bg-dark-separator"/>
-        <q-tab name="complete" label="Completed" icon="check" />
+        <q-tab name="completo" label="Completed" icon="check" />
       </q-tabs>
     </div>
   </div>
@@ -46,7 +46,7 @@ export default {
   },
   data () {
     return {
-      tab: 'pending',
+      tab: 'pendente',
       busca:'',
     }
   },
@@ -55,7 +55,7 @@ export default {
       tracks: 'lyrics/lyric'
     }),
     validTracks: function () {
-      return Object.values(this.tracks).filter(i => i !== null && i.id !== '');
+      return Object.values(this.tracks).filter(i => i !== null && i.id !== '' && i.status == this.tab);
     }
   }
 }
