@@ -16,6 +16,7 @@
     "firebase": "^7.14.1",
     "google-translate": "^3.0.0",
     "hellojs": "^1.18.4",
+    "lodash": "^4.17.19",
     "quasar": "^1.11.3",
     "vue-i18n": "^8.0.0",
     "vue-localforage": "^0.2.5",

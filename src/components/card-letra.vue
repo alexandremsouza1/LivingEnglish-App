@@ -242,8 +242,13 @@ export default {
                 console.log(err);
           }
       }
+      this.somarPontosObtidos(s1Parts.length - this.score);
       this.$db.modifyItem.apply(_self,[_self.all_frases.id,'score_g',this.score])
       this.p = p.join(' ');
+    },
+    somarPontosObtidos(num){
+      if(num>0)
+        this.$db.modifyItem.apply(this,[this.all_frases.id,'pontuacao_atingida',num]);
     }
   },
   mounted: function () {
