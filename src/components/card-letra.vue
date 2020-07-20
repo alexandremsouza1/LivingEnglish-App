@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-dialog v-model="activated">
+    <q-dialog v-model="activated" @hide="closeDialog">
       <q-carousel
         animated
         v-model="slide"
@@ -159,9 +159,9 @@ export default {
       slide: 0,
       score: 0,
       lorem: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!',
-
+      lastPosBlock:0,
+      answerVerify: [],
       stars: 3,
-
       slideVol: 39,
       slideAlarm: 56,
       slideVibration: 63
@@ -183,7 +183,20 @@ export default {
     }
   }, 
   methods:{
+    closeDialog(){
+      
+    },
     finishLetra(n,o){
+      const found = this.answerVerify.some(element => element == o);
+      if(o < n){
+        if(this.lastPosBlock == o){
+          if(!found){
+            this.slide = o
+            this.triggerNegative('Clique no botão para verificar sua resposta')
+          }
+        }
+      }
+      this.lastPosBlock = n
       //TODO - CARREGAR O LYRICS CORRETAMENTE DO VUEX
       //this.$db.setLyric(all_frases);
       console.log(o)
@@ -245,11 +258,19 @@ export default {
       this.somarPontosObtidos(s1Parts.length - this.score);
       this.$db.modifyItem.apply(_self,[_self.all_frases.id,'score_g',this.score])
       this.p = p.join(' ');
+      this.answerVerify.push(index)
+      this.lastPosBlock = index;
     },
     somarPontosObtidos(num){
       if(num>0)
         this.$db.modifyItem.apply(this,[this.all_frases.id,'pontuacao_atingida',num]);
-    }
+    },
+    triggerNegative (m) {
+      this.$q.notify({
+        type: 'negative',
+        message: m
+      })
+    },
   },
   mounted: function () {
     this.activated =  this.active;
