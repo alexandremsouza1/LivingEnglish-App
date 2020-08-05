@@ -28,6 +28,9 @@ export default {
     mutations: {
       SET_LYRIC (state, lyric) {
         state.lyric.push(lyric)
+      },
+      REPLACE_LYRIC (state, lyric) {
+        state.lyric = lyric
       }
     },
   
@@ -35,6 +38,10 @@ export default {
     actions: {
       saveLyric ({ commit }, lyric ) {
         commit('SET_LYRIC', lyric)
+      },
+
+      replaceAll ({ commit }, lyric ) {
+        commit('REPLACE_LYRIC', lyric)
       }
     }
   }

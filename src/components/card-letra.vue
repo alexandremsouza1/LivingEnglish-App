@@ -192,7 +192,7 @@ export default {
         if(this.lastPosBlock == o){
           if(!found){
             this.slide = o
-            this.triggerNegative('Clique no botão para verificar sua resposta')
+            this.triggerNegative('Clique no icone de verificação')
           }
         }
       }
@@ -226,17 +226,10 @@ export default {
           });
       });
     },
-    async verify(index,txt){
-      var traduzida = '';
-      var p = [];
-      var _self = this;
-      await this.t(txt).then(function(result){
-              traduzida = result;
-              _self.$db.modifyItem.apply(_self,[_self.all_frases.id,'traducao',traduzida])
-      })
+    printErros(traduzida){
       var s1 = traduzida;
       var s2 = this.answer;
-
+      var p = [];
       var s1Parts= s1.split(' ');
       var s2Parts= s2.split(' ');
 
@@ -255,9 +248,23 @@ export default {
                 console.log(err);
           }
       }
-      this.somarPontosObtidos(s1Parts.length - this.score);
-      this.$db.modifyItem.apply(_self,[_self.all_frases.id,'score_g',this.score])
       this.p = p.join(' ');
+    },
+    async verify(index,txt){
+      console.log('caraloio')
+      var traduzida = '';
+      var _self = this;  
+      traduzida = typeof this.all_frases.traducao[index] !== 'undefined' ? this.all_frases.traducao[index] : '';
+      if(traduzida === ""){
+        await this.t(txt).then(async function(result){
+                traduzida = result;
+                _self.$db.modifyItem.apply(_self,[_self.all_frases.id,'traducao',traduzida])
+        })
+      }
+     this.printErros(traduzida)
+      //this.somarPontosObtidos(s1Parts.length - this.score);
+      //this.$db.modifyItem.apply(_self,[_self.all_frases.id,'score_g',this.score])
+      //
       this.answerVerify.push(index)
       this.lastPosBlock = index;
     },
