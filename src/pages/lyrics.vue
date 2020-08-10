@@ -117,7 +117,7 @@ export default {
         var _self = this;
         var conunter = 0
         setTimeout(async() => {
-           _self.music.score_g = 0;
+           _self.music.score_g = [];
             arr = paste.split("\n");
             arr.forEach(element => {
               conunter+=this.wordCount(element)

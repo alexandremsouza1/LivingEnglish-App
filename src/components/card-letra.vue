@@ -226,7 +226,8 @@ export default {
           });
       });
     },
-    printErros(traduzida){
+    printErros(traduzida,index){
+      let score = 0;
       var s1 = traduzida;
       var s2 = this.answer;
       var p = [];
@@ -237,17 +238,19 @@ export default {
           try{
             if(s1Parts[i].toLowerCase() === s2Parts[i].toLowerCase()){
               p.push(s1Parts[i]);
-              this.score = 0;
+              score = 0;
             }else{
-              this.score++;
+              score++;
               p.push('<mark>'+s1Parts[i]+'</mark>');
             }
           }catch(err){
-                this.score++;
+                score++;
                 p.push('<mark>'+s1Parts[i]+'</mark>');
                 console.log(err);
           }
       }
+      debugger
+      this.somarPontosByIndex(s1Parts.length - score,index);
       this.p = p.join(' ');
     },
     async verify(index,txt){
@@ -261,16 +264,17 @@ export default {
                 _self.$db.modifyItem.apply(_self,[_self.all_frases.id,'traducao',traduzida])
         })
       }
-     this.printErros(traduzida)
+     this.printErros(traduzida,index)
       //this.somarPontosObtidos(s1Parts.length - this.score);
       //this.$db.modifyItem.apply(_self,[_self.all_frases.id,'score_g',this.score])
       //
       this.answerVerify.push(index)
       this.lastPosBlock = index;
     },
-    somarPontosObtidos(num){
-      if(num>0)
-        this.$db.modifyItem.apply(this,[this.all_frases.id,'pontuacao_atingida',num]);
+    somarPontosByIndex(num,index){
+      if(typeof this.all_frases.score_g[index] == 'undefined'){
+        this.$db.modifyItem.apply(this,[this.all_frases.id,'score_g',num])
+      }
     },
     triggerNegative (m) {
       this.$q.notify({
