@@ -30,7 +30,7 @@ export default {
         state.lyric.push(lyric)
       },
       REPLACE_LYRIC (state, lyric) {
-        state.lyric = lyric
+        state.lyric = Object.values(lyric)
       }
     },
   

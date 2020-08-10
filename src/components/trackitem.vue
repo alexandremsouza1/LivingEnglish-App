@@ -1,7 +1,7 @@
 <template>
 <div class="q-pa-md" @click="choiseSong(track)">
     <card-letra 
-    :all_frases="this.music"
+    :all_frases="this.track"
     :active="this.active"
     @update-active="update"
     ></card-letra>
