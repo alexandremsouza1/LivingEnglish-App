@@ -37,6 +37,27 @@ var db = class Persistence extends Vue{
         this.$setItem('music', aux);
     }
 
+    removeLyric(id){
+        return new Promise( (resolve, reject) => {
+            debugger
+            var _self = this;
+            let aux = _.cloneDeep(this.$store.getters['lyrics/lyric'])
+            aux = aux.filter(i => i !== null && i.id !== '');
+            var indice = aux.findIndex(element => element.id ==  id);
+            aux.splice(indice,1)
+            this.$setItem('music', aux).then(function () {
+                _self.$store.dispatch('lyrics/replaceAll', {
+                    ...aux
+                })
+                resolve
+            }).catch(function (err) {
+                reject(err)
+            });
+
+        })
+
+    }
+
 }
 
 

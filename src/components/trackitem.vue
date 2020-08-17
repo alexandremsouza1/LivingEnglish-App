@@ -24,6 +24,12 @@
           </q-item-label>
         </q-item-section>
 
+        <q-item-section>
+          <q-item-label >
+              <q-icon name="delete" color="red" size="20px" class="float-right" @click.stop.prevent="removeItem(track.id)"/>
+          </q-item-label>
+        </q-item-section>
+
   
       </q-item>
       <q-separator spaced />
@@ -90,6 +96,16 @@ export default {
            _self.$q.loading.hide();
         })
         .catch(error => console.log(error))
+      },
+      removeItem(id){
+        this.$q.dialog({
+          cancel: true,
+          persistent: true,
+          title: 'Alerta',
+          message: 'Deseja realmente excluir o item?'
+        }).onOk(() => {
+            this.$db.removeLyric.apply(this,[id])
+        })
       }
     }
 }
