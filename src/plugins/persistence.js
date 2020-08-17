@@ -13,15 +13,18 @@ var db = class Persistence extends Vue{
             if(Array.isArray(aux[indice][attr])){
                 aux[indice][attr].push(value);
             }else if(Number.isInteger(aux[indice][attr])){
-                aux[indice][attr]+= value;
+                aux[indice][attr] = value;
             }else{
                 aux[indice][attr] = value;
             }    
         this.$setItem('music', aux).then(function () {
             _self.$store.dispatch('lyrics/replaceAll', {
                 ...aux
-            })
-            resolve
+            }).then(() => {
+                resolve
+            }).catch(function (err) {
+                reject(err)
+            });
         }).catch(function (err) {
             reject(err)
         });
@@ -39,7 +42,6 @@ var db = class Persistence extends Vue{
 
     removeLyric(id){
         return new Promise( (resolve, reject) => {
-            debugger
             var _self = this;
             let aux = _.cloneDeep(this.$store.getters['lyrics/lyric'])
             aux = aux.filter(i => i !== null && i.id !== '');
