@@ -249,22 +249,21 @@ export default {
                 console.log(err);
           }
       }
-      let promises =  this.somarPontosByIndex(s1Parts.length - score,index);
+      this.somarPontosByIndex(s1Parts.length - score,index);
       this.p = p.join(' ');
-      return Promise.all([promises])
     },
     async verify(index,txt){
-      console.log('caraloio')
       var traduzida = '';
       var _self = this;  
       traduzida = typeof this.all_frases.traducao[index] !== 'undefined' ? this.all_frases.traducao[index] : '';
       if(traduzida === ""){
         await this.t(txt).then(async function(result){
                 traduzida = result;
-                await _self.$db.modifyItem.apply(_self,[_self.all_frases.id,'traducao',traduzida])
+                
         })
+      this.$db.modifyItem.apply(this,[this.all_frases.id,'traducao',traduzida])
       }
-     this.printErros(traduzida,index)
+      this.printErros(traduzida,index)
       //this.somarPontosObtidos(s1Parts.length - this.score);
       //this.$db.modifyItem.apply(_self,[_self.all_frases.id,'score_g',this.score])
       //
@@ -272,14 +271,16 @@ export default {
       this.lastPosBlock = index;
     },
     somarPontosByIndex(num,index){
-      if(typeof this.all_frases.score_g[index] == 'undefined'){
-        this.$db.modifyItem.apply(this,[this.all_frases.id,'score_g',num])
+      try{
+        this.all_frases.score_g[index] = num
+      }catch(e){
+        console.log(e)
       }
       let atingida = this.all_frases.score_g.reduce((a, b) => a + b, 0)
       let max = this.all_frases.pontuacao_max
 
       let total = Math.trunc((atingida/max) * 5)
-      return this.$db.modifyItem.apply(this,[this.all_frases.id,'pontuacao_atingida',total])
+      this.all_frases.pontuacao_atingida = total;
     },
     triggerNegative (m) {
       this.$q.notify({
