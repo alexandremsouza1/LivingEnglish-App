@@ -158,6 +158,7 @@ export default {
       sliders: false,
       slide: 0,
       score: 0,
+      finish:false,
       lorem: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!',
       lastPosBlock:0,
       answerVerify: [],
@@ -201,6 +202,9 @@ export default {
       //this.$db.setLyric(all_frases);
       console.log(o)
       console.log(n)
+      if((this.all_frases.original.length - 1)  == this.slide){
+        this.finish = true;
+      }
     },
     clearValues(){
       this.p = '';
@@ -269,6 +273,12 @@ export default {
       //
       this.answerVerify.push(index)
       this.lastPosBlock = index;
+      if(this.finish){
+        setTimeout(() => {
+              alert('chamou')
+        }, 1000);
+        this.finish = false;
+      }
     },
     somarPontosByIndex(num,index){
       try{
