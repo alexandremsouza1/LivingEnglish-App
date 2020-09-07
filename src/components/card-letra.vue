@@ -275,7 +275,7 @@ export default {
       this.lastPosBlock = index;
       if(this.finish){
         setTimeout(() => {
-              alert('chamou')
+              this.$router.push('/finish');
         }, 1000);
         this.finish = false;
       }
