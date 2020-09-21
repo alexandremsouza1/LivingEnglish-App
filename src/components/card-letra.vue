@@ -275,7 +275,8 @@ export default {
       this.lastPosBlock = index;
       if(this.finish){
         setTimeout(() => {
-              this.$router.push('/finish');
+          const id = this.all_frases.id
+         this.$router.push({ name: 'finish', params: { id } }) 
         }, 1000);
         this.finish = false;
       }

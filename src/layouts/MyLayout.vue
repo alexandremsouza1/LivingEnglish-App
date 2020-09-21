@@ -36,7 +36,7 @@
         <!-- icon="account_circle" -->
         <!-- src="https://cdn.quasar.dev/img/avatar.png" -->
           <q-avatar class="q-mx-xs" size="50px" >
-            <img v-if="true" :src="this.user.picture"/>
+            <img v-if="true" :src="require('src/assets/account_circle.svg')">
             <!-- <img :src="require( `../assets/${this.user.picture}.svg`)"/> -->
             <!-- <q-badge floating color="teal">new</q-badge> -->
           </q-avatar>
