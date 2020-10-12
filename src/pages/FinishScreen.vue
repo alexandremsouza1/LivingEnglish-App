@@ -2,12 +2,12 @@
     <div >
     <transition name="slide-fade">
         <img
-        :src="'../../img/stars.svg'"
+        :src="'../statics/stars.svg'"
         />
     </transition>
         <q-form
           @submit="onSubmit"
-          class="fixed-center"
+          class="relative-position q-px-xl"
         >
           <q-input
             filled
@@ -17,16 +17,16 @@
             :rules="[ val => val && val.length > 0 || 'Please type something']"
           />
 
-        <p>Pontuação atingida:</p> 
-        <p>Pontuação Máxima:</p> 
+        <p>Pontuação atingida: {{this.found.pontuacao_atingida}}</p> 
+        <p>Pontuação Máxima:{{this.found.pontuacao_max}}</p> 
         <p>Porcentagem:</p> 
-          <q-linear-progress size="50px" :value="0.9" color="green" class="q-mt-sm">
+          <q-linear-progress size="50px" :value="this.porcent()" color="green" class="q-mt-sm">
             <div class="absolute-full flex flex-center">
-                <q-badge color="white" text-color="accent" label="90%" />
+                <q-badge color="white" text-color="accent" :label="this.porcent()+'%'" />
             </div>
             </q-linear-progress>
-          <div>
-            <q-btn label="Ok" type="submit" color="primary"/>
+          <div class="confirm">
+            <q-btn class="q-ma-lg" label="Ok" type="submit" color="primary"/>
           </div>
         </q-form>
 
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name:'Finish',
   data () {
@@ -41,12 +42,37 @@ export default {
       name:''
     }
   },
+  computed: {
+  ...mapGetters({
+      tracks: 'lyrics/lyric'
+    }),
+    found: function(){
+      return Object.values(this.tracks).find(el => el.id == this.$route.params.id)
+    }
+  },
   methods:{
- 
+    onSubmit(){
+      let id = this.found.id
+      //this.$db.modifyItem.apply(this,[id,'nome',this.name])
+      this.$db.modifyItem.apply(this,[id,'status','completo'])
+      this.$router.push('/lyrics')
+    },
+    porcent(){
+      let atingida = this.found.score_g.reduce((a, b) => a + b, 0)
+      let max = this.found.pontuacao_max
+
+      let total = Math.trunc((atingida/max))
+      return total
+    }
   }
 }
 </script>
 
 <style >
+.confirm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 </style>
 
