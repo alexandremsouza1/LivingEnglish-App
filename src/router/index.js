@@ -4,6 +4,8 @@ import UUID from "vue-uuid";
 import routes from './routes'
 import db from '../plugins/persistence'
 import VueLocalForage from 'vue-localforage'
+import VueEvents from 'vue-plugin-events'
+ 
 
 
 Vue.prototype.$db = db
@@ -11,6 +13,7 @@ Vue.prototype.$db = db
 Vue.use(VueRouter)
 Vue.use(VueLocalForage)
 Vue.use(UUID);
+Vue.use(VueEvents)
 /*
  * If not building with SSR mode, you can
  * directly export the Router instantiation

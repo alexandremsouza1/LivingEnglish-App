@@ -16,18 +16,8 @@ var db = class Persistence extends Vue{
                 aux[indice][attr] = value;
             }else{
                 aux[indice][attr] = value;
-            }    
-        this.$setItem('music', aux).then(function () {
-            _self.$store.dispatch('lyrics/replaceAll', {
-                ...aux
-            }).then(() => {
-                resolve
-            }).catch(function (err) {
-                reject(err)
-            });
-        }).catch(function (err) {
-            reject(err)
-        });
+            }
+        this.$events.emit('save', aux)    
       })
     }
 

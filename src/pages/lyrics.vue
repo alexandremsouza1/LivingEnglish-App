@@ -1,50 +1,40 @@
 <template>
-  <div>
-    <div >
-    <track-item v-for="track in tracks" :key="track.track.track_id" :track="track">
-    </track-item>
+   <div class="q-gutter-md" style="max-width: 100%">
     <q-input
+      label="Origin"
+      color="pink-2"
+      class="q-pa-sm"
+      outlined
       v-model="text"
       type="textarea"
-      :max-height="100" 
-      rows="31"
-      @select.native="logSelectionWithinInput($event)"
+      rows="13"
       @paste.native="paste"
+      :readonly="control"
     />
-    </div>
-    <!-- <q-btn
-      round
-      color="black"
-      @click="loadmusic"
-      class="fixed"
-      icon="refresh"
-      style="right: 18px; bottom: 72px"
+    <q-input
+      ref="translated"
+      label="Translated"
+      color="pink-2"
+      class="q-pa-sm"
+      outlined
+      v-model="translated"
+      type="textarea"
+      rows="13"
+      @paste.native="paste"
+      :readonly="!control"
     />
-    <q-btn
-      round
-      color="primary"
-      @click="add"
-      class="fixed"
-      icon="add"
-      style="right: 18px; bottom: 18px"
-    /> -->
   </div>
 </template>
 <script>
-import axios from 'axios';
-import _ from 'lodash';
-import TrackItem from 'src/components/trackitem'
-import cardLetra  from "src/components/card-letra";
-import {t,falar} from 'src/plugins/translate.js'
 export default {
     name:'lyrics',
-    components:{
-      cardLetra,TrackItem
-  },
   data () {
     return {
+      id: '',
       tracks:[],
       text: '',
+      translated: '',
+      control:false,
       score:0,
       music: {
           id: '',
@@ -68,72 +58,50 @@ export default {
     //this.ListarTodos();  
     //this.search = false;
     },
-    handleSearch: _.debounce(function() {
-      this.preApiCall();
-    }, 300),
-
-    preApiCall() {
-      if (typeof cancel == "function") {
-        cancel();
-        console.log("cancelled");
-      } 
-      this.filteredItems();
-    },
-    async filteredItems() {
-      var cancel;
-      var CancelToken = axios.CancelToken;
-      var _self = this;
-      this.$q.loading.show();
-      await axios(
-        {
-          method: "get",
-          url: "https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.search",
-          cancelToken: new CancelToken(function executor(c) {
-            cancel = c;
-          }),
-          params: {
-            q_track: this.busca,
-            page_size:12,
-            page:1,
-            s_track_rating:"desc",
-            apikey:"4b7f42e95eff356453a45073f87f0954"
-          }
-        })
-        //'https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.search?q_track='+this.busca+'&page_size=12&page=1&s_track_rating=desc&apikey=4b7f42e95eff356453a45073f87f0954')
-      .then(res =>{
-          _self.tracks = res.data.message.body.track_list
-          _self.$q.loading.hide();
-          if(!_self.tracks){
-            _self.$q.notify('No information was found!');
-          }
-      })
-      .catch(error => console.log(error)
-      )
-    },
     paste(e) {
+      var lyrics = [];
+      var arr = [];
+      var _self = this;
+      var conunter = 0
+      if(this.text == ''){
         let paste = e.clipboardData.getData('text')
-        var lyrics = [];
-        var arr = [];
-        var _self = this;
-        var conunter = 0
-        setTimeout(async() => {
-           _self.music.score_g = [];
-            arr = paste.split("\n");
-            arr.forEach(element => {
-              conunter+=this.wordCount(element)
-            });
-            _self.prepareMusic(
-              {
-                'id': this.$uuid.v1(),
-                'pontuacao_max' : conunter,
-                'original': arr
-              }
+          setTimeout(async() => {
+            _self.music.score_g = [];
+              arr = paste.split("\n");
+              arr.forEach(element => {
+                conunter+=this.wordCount(element)
+              });
+              _self.id = this.$uuid.v1()
+              _self.prepareMusic(
+                {
+                  'id': this.id,
+                  'pontuacao_max' : conunter,
+                  'original': arr
+                },false
               );
-            if(arr.length !== 0){
-              this.active = true;
-            }
-            this.$router.push('/lyrics');
-        }, 1000);
+              _self.control = true;
+              _self.$refs.translated.$el.focus();
+              if(_self.translated !== ''){
+                _self.$router.push('/lyrics');
+              }
+          }, 1000);
+      }else{
+        let paste = e.clipboardData.getData('text')
+        arr = [];
+                  setTimeout(async() => {
+              arr = paste.split("\n");
+              _self.prepareMusic(
+                {
+                  'id': this.id,
+                  'traducao': arr
+                },true
+              );
+              if(this.translated !== ''){
+                this.$router.push('/lyrics');
+              }
+          }, 1000);
+
+      }
         
     },
     wordCount(str) { 
@@ -173,13 +141,6 @@ export default {
           console.log(err);
       });
     },
-    async logSelectionWithinInput(e) {
-      var selection = await e.target.value.substring(
-        e.target.selectionStart,
-        e.target.selectionEnd
-      );
-      falar(selection);
-    },
     pontuacao(s1,s2){
         var s1Parts= s1.split(' ');
         var s2Parts= s2.split(' ');
@@ -197,12 +158,14 @@ export default {
         }
         this.score = Math.trunc(5 * (this.score / s1Parts.length));
     },
-    prepareMusic(array){
+    prepareMusic(array,save){
       var _self = this;
       Object.keys(array).forEach(function(x,y){
         _self.music[x] = Object.values(array)[y];
       })
-      this.$db.setLyric.apply(this,[this.music]);
+      if(save){
+        this.$db.setLyric.apply(this,[this.music]);
+      }
     }
 }
 }

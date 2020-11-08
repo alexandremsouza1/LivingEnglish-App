@@ -225,7 +225,7 @@ export default {
       return new Promise((resolve, reject) => {
        googleTranslate('AIzaSyBHt947aSFRXbo1wgQGxmam9iRB7wHNkco').translate(txt, 'pt', (err, translation) => {
           err 
-              ? (reject(err), logger.log('error', err))
+              ? (reject(err), console.log(err))
               : resolve(translation.translatedText)
           });
       });
@@ -257,6 +257,7 @@ export default {
       this.p = p.join(' ');
     },
     async verify(index,txt){
+      debugger
       var traduzida = '';
       var _self = this;  
       traduzida = typeof this.all_frases.traducao[index] !== 'undefined' ? this.all_frases.traducao[index] : '';
@@ -269,7 +270,7 @@ export default {
       }
       this.printErros(traduzida,index)
       //this.somarPontosObtidos(s1Parts.length - this.score);
-      //this.$db.modifyItem.apply(_self,[_self.all_frases.id,'score_g',this.score])
+      this.$db.modifyItem.apply(this,[this.all_frases.id,'score_g',this.score])
       //
       this.answerVerify.push(index)
       this.lastPosBlock = index;

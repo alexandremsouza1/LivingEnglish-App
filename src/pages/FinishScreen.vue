@@ -17,7 +17,7 @@
             :rules="[ val => val && val.length > 0 || 'Please type something']"
           />
 
-        <p>Pontuação atingida: {{this.found.pontuacao_atingida}}</p> 
+        <p>Pontuação atingida: {{this.hit()}}</p> 
         <p>Pontuação Máxima:{{this.found.pontuacao_max}}</p> 
         <p>Porcentagem:</p> 
           <q-linear-progress size="50px" :value="this.porcent()" color="green" class="q-mt-sm">
@@ -53,15 +53,18 @@ export default {
   methods:{
     onSubmit(){
       let id = this.found.id
-      //this.$db.modifyItem.apply(this,[id,'nome',this.name])
+      this.$db.modifyItem.apply(this,[id,'nome',this.name])
       this.$db.modifyItem.apply(this,[id,'status','completo'])
       this.$router.push('/lyrics')
+    },
+    hit(){
+      return this.found.score_g.reduce((a, b) => a + b, 0)
     },
     porcent(){
       let atingida = this.found.score_g.reduce((a, b) => a + b, 0)
       let max = this.found.pontuacao_max
 
-      let total = Math.trunc((atingida/max))
+      let total = Math.trunc(((atingida/max)*100))
       return total
     }
   }
