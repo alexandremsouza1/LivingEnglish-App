@@ -1,5 +1,5 @@
 <template>
-   <div class="q-gutter-md" style="max-width: 100%">
+   <div>
     <q-input
       label="Origin"
       color="pink-2"
@@ -7,8 +7,7 @@
       outlined
       v-model="text"
       type="textarea"
-      rows="13"
-      @paste.native="paste"
+      rows="12"
       :readonly="control"
     />
     <q-input
@@ -19,15 +18,25 @@
       outlined
       v-model="translated"
       type="textarea"
-      rows="13"
+      rows="12"
       @paste.native="paste"
-      :readonly="!control"
+      :readonly="control"
     />
+    <div class="q-pb-md q-mr-xs q-gutter-sm float-right">
+      <q-btn round color="red" @click="enable" icon="clear" size="xs"/>
+      <q-btn round color="green" @click="confirm" icon="done" size="xs"/>
+    </div>
   </div>
 </template>
 <script>
 export default {
     name:'lyrics',
+    props: {
+      obj: {
+        type: Object,
+        required: false
+      },
+    },
   data () {
     return {
       id: '',
@@ -51,24 +60,37 @@ export default {
     }
   },
   async mounted(){
+    if(this.$route.params.hasOwnProperty('obj')){
+      const objeto = this.$route.params.obj
+      this.text = objeto.orig
+      this.translated = objeto.tran
+      this.control = true
+    }
    await this.loadmusic()
   },
   methods:{
+    enable() {
+      this.control = !this.control 
+    },
     focoBusca(){
     //this.ListarTodos();  
     //this.search = false;
     },
-    paste(e) {
+    confirm() {
+      console.log('testews')
+      debugger
       var lyrics = [];
-      var arr = [];
+      var arr_o,arr_t = [];
       var _self = this;
       var conunter = 0
-      if(this.text == ''){
-        let paste = e.clipboardData.getData('text')
+      if(this.text != '' && this.translated != ''){
+        let paste_o = this.text
+        let paste_t = this.translated
           setTimeout(async() => {
             _self.music.score_g = [];
-              arr = paste.split("\n");
-              arr.forEach(element => {
+              arr_o = paste_o.split("\n");
+              arr_t = paste_t.split("\n");
+              arr_o.forEach(element => {
                 conunter+=this.wordCount(element)
               });
               _self.id = this.$uuid.v1()
@@ -76,8 +98,9 @@ export default {
                 {
                   'id': this.id,
                   'pontuacao_max' : conunter,
-                  'original': arr
-                },false
+                  'original': arr_o,
+                  'traducao': arr_t
+                },true
               );
               _self.control = true;
               _self.$refs.translated.$el.focus();
@@ -85,24 +108,7 @@ export default {
                 _self.$router.push('/lyrics');
               }
           }, 1000);
-      }else{
-        let paste = e.clipboardData.getData('text')
-        arr = [];
-                  setTimeout(async() => {
-              arr = paste.split("\n");
-              _self.prepareMusic(
-                {
-                  'id': this.id,
-                  'traducao': arr
-                },true
-              );
-              if(this.translated !== ''){
-                this.$router.push('/lyrics');
-              }
-          }, 1000);
-
-      }
-        
+      } 
     },
     wordCount(str) { 
       return str.split(" ").length;

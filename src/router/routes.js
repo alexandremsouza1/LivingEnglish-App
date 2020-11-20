@@ -6,7 +6,7 @@ const routes = [
     children: [
       { name:'login', path: 'login', component: () => import('pages/Login.vue') },
       { name: 'music', path: 'lyrics', component: () => import('pages/Musics.vue') },
-      { name: 'lyrics', path: 'paste', component: () => import('pages/lyrics.vue') },
+      { name: 'lyrics', path: 'paste', component: () => import('pages/lyrics.vue') , props: true },
       { name: 'finish', path: 'finish/:id', component: () => import('pages/FinishScreen.vue') }
     ]
   }

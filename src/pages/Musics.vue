@@ -3,6 +3,7 @@
     <div class="q-gutter-y-md" style="max-width: 100%">
     <q-input
       v-model="busca"
+      debounce="1000"
       filled
       label="Search Lyrics"
       v-if="true"
@@ -38,6 +39,7 @@
 </template>
 <script>
 import TrackItem from 'src/components/trackitem'
+import { getLyricsByPiece } from "src/plugins/lyrics";
 import { mapGetters } from 'vuex'
 export default {
   name: "Musics",
@@ -50,6 +52,19 @@ export default {
       busca:'',
     }
   },
+  watch:{
+    'busca': {
+      handler: async function(val) {
+        debugger
+        let todo = this.busca.split(';')
+        if(todo.length > 1){
+          const dataRec = await getLyricsByPiece(todo[0],todo[1]);
+          console.log(dataRec)
+          this.$router.push({name: 'lyrics', params: {obj:dataRec}});
+        }
+      }
+    }
+  }, 
   computed: {
   ...mapGetters({
       tracks: 'lyrics/lyric'
