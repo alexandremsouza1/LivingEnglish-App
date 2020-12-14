@@ -1,18 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md" style="max-width: 100%">
-    <q-input
-      v-model="busca"
-      debounce="1000"
-      filled
-      label="Search Lyrics"
-      v-if="true"
-      autofocus
-    >
-    <template v-slot:append>
-      <q-icon name="search" />
-    </template>
-    </q-input>
+    <find-song> </find-song>
   <track-item v-for="track in validTracks" :key="track.id" :track="track">
   </track-item>
      <q-btn
@@ -39,12 +28,14 @@
 </template>
 <script>
 import TrackItem from 'src/components/trackitem'
-import { getLyricsByPiece } from "src/plugins/lyrics";
+import findSong from 'src/components/findSong'
 import { mapGetters } from 'vuex'
+import FindSong from '../components/findSong.vue';
 export default {
   name: "Musics",
   components:{
-    TrackItem
+    TrackItem,
+    findSong
   },
   data () {
     return {
@@ -52,19 +43,6 @@ export default {
       busca:'',
     }
   },
-  watch:{
-    'busca': {
-      handler: async function(val) {
-        debugger
-        let todo = this.busca.split(';')
-        if(todo.length > 1){
-          const dataRec = await getLyricsByPiece(todo[0],todo[1]);
-          console.log(dataRec)
-          this.$router.push({name: 'lyrics', params: {obj:dataRec}});
-        }
-      }
-    }
-  }, 
   computed: {
   ...mapGetters({
       tracks: 'lyrics/lyric'

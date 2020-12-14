@@ -37,6 +37,7 @@ const getLyricsById = async id => {
 };
 
 export const getLyricsByPiece = async (art,mus) => {
+  var result = {}
   //const queryByPiece = `https://api.vagalume.com.br/search.php?art=${art}&mus=${mus}&apikey=${key}`;
   const queryByPiece = `https://api.vagalume.com.br/search.php?apikey=${key}&art=${art}&mus=${mus}`;
   return await axios
@@ -45,15 +46,17 @@ export const getLyricsByPiece = async (art,mus) => {
       console.log('getLyricsByPiece', res)
       let musicId = '';
       if(res.data.mus > 0) {
-        return {'id':res.data.art.id,'orig':res.data.mus[0].text,'tran':res.data.mus[0].translate[0].text}
+        result = {'id':res.data.art.id,'orig':res.data.mus[0].text,'tran':res.data.mus[0].translate[0].text}
       } 
      
       console.log('musicId', !!musicId)
-      return {'id':res.data.art.id,'orig':res.data.mus[0].text,'tran':res.data.mus[0].translate[0].text}
+      result = {'id':res.data.art.id,'orig':res.data.mus[0].text,'tran':res.data.mus[0].translate[0].text}
       //return !!musicId ? getLyricsById(musicId) : musicId;
+      result.status = "Sucess";
+      return result
     })
-    .catch(error => {
-      console.log("getLyricsByPiece", error);
+    .catch(e => {
+     return {status:'Error',message:e.message};
     });
 };
 

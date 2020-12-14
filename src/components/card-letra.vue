@@ -256,8 +256,7 @@ export default {
       this.somarPontosByIndex(s1Parts.length - score,index);
       this.p = p.join(' ');
     },
-    async verify(index,txt){
-      debugger
+    async verify(index,txt){    
       var traduzida = '';
       var _self = this;  
       traduzida = typeof this.all_frases.traducao[index] !== 'undefined' ? this.all_frases.traducao[index] : '';

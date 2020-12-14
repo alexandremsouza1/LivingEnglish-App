@@ -22,9 +22,10 @@
       @paste.native="paste"
       :readonly="control"
     />
-    <div class="q-pb-md q-mr-xs q-gutter-sm float-right">
-      <q-btn round color="red" @click="enable" icon="clear" size="xs"/>
-      <q-btn round color="green" @click="confirm" icon="done" size="xs"/>
+    <div class="q-pb-md q-mr-xs q-gutter-sm text-center">
+      <q-btn round color="red" @click="close" icon="clear" size="sm"/>
+      <q-btn round color="blue" @click="enable" :icon="iconEnable" size="sm"/>
+      <q-btn round color="green" @click="confirm" icon="done" size="sm"/>
     </div>
   </div>
 </template>
@@ -45,6 +46,7 @@ export default {
       translated: '',
       control:false,
       score:0,
+      iconEnable: 'edit',
       music: {
           id: '',
           nome:'',
@@ -69,7 +71,11 @@ export default {
    await this.loadmusic()
   },
   methods:{
+    close(){
+      this.$router.push('/lyrics');
+    },
     enable() {
+      !this.control ? this.iconEnable = 'edit' : this.iconEnable = 'block'
       this.control = !this.control 
     },
     focoBusca(){
@@ -77,8 +83,6 @@ export default {
     //this.search = false;
     },
     confirm() {
-      console.log('testews')
-      debugger
       var lyrics = [];
       var arr_o,arr_t = [];
       var _self = this;
@@ -93,6 +97,13 @@ export default {
               arr_o.forEach(element => {
                 conunter+=this.wordCount(element)
               });
+              if(arr_o.length != arr_t.length){
+                 this.$q.notify({
+                  type: 'warning',
+                  message: 'A quantidade de linhas não conferem'
+                })
+                return false
+              } 
               _self.id = this.$uuid.v1()
               _self.prepareMusic(
                 {
