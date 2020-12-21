@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-pull-to-refresh @refresh="refresh">
+    <!--<q-pull-to-refresh @refresh="refresh"> -->
     <q-header elevated class="bg-purple-6">
       <q-toolbar>
         <q-btn
@@ -128,7 +128,7 @@
     <q-page-container>
       <router-view />
     </q-page-container>
-      </q-pull-to-refresh>
+      <!--</q-pull-to-refresh> -->
   </q-layout>
 </template>
 
