@@ -3,6 +3,7 @@
   <card-base ref="cardBase">
     <canvas 
     id="f2Guage"
+    class="canvas"
     />
   </card-base>
   <canvas 
@@ -257,5 +258,13 @@ canvas.guage {
   height:300px;
   position: absolute;
   pointer-events:none;
+}
+.canvas {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 800px;
 }
 </style>
