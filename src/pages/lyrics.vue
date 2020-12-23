@@ -99,7 +99,7 @@ export default {
       var arr_o = [];
       var _self = this;
       var conunter = 0
-      if(this.compare_state || (this.this.text != '' && this.translated != '')){
+      if(this.compare_state || (this.text != '' && this.translated != '')){
         let paste_o = this.text
         let paste_t = this.translated
           setTimeout(async() => {

@@ -1,14 +1,11 @@
 <template>
     <div >
-    <transition name="slide-fade">
-        <img
-        :src="'../statics/stars.svg'"
-        />
-    </transition>
+    <f2-apple-watch :percent="this.porcent()" />
         <q-form
           @submit="onSubmit"
           class="relative-position q-px-xl"
         >
+          
           <q-input
             filled
             v-model="name"
@@ -19,12 +16,6 @@
 
         <p>Pontuação atingida: {{this.hit()}}</p> 
         <p>Pontuação Máxima:{{this.found.pontuacao_max}}</p> 
-        <p>Porcentagem:</p> 
-          <q-linear-progress size="50px" :value="this.porcent()" color="green" class="q-mt-sm">
-            <div class="absolute-full flex flex-center">
-                <q-badge color="white" text-color="accent" :label="this.porcent()+'%'" />
-            </div>
-            </q-linear-progress>
           <div class="confirm">
             <q-btn class="q-ma-lg" label="Ok" type="submit" color="primary"/>
           </div>
@@ -35,8 +26,12 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import F2AppleWatch from '../components/dashboards/SpeedDash'
 export default {
   name:'Finish',
+  components: {
+    F2AppleWatch
+  },
   data () {
     return {
       name:''

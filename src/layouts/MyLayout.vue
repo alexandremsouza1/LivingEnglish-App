@@ -98,6 +98,7 @@
       <q-item
         clickable
         v-ripple
+        to='/settings'
         :active="link === 'settings'"
         @click="link = 'settings'"
         active-class="my-menu-link"
