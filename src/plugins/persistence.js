@@ -10,13 +10,7 @@ var db = class Persistence extends Vue{
             let aux = _.cloneDeep(this.$store.getters['lyrics/lyric'])
             aux = aux.filter(i => i !== null && i.id !== '');
             var indice = aux.findIndex(element => element.id ==  id);
-            if(Array.isArray(aux[indice][attr])){
-                aux[indice][attr].push(value);
-            }else if(Number.isInteger(aux[indice][attr])){
-                aux[indice][attr] = value;
-            }else{
-                aux[indice][attr] = value;
-            }
+            aux[indice][attr] = value;
         this.$events.emit('save', aux)    
       })
     }

@@ -184,6 +184,11 @@ export default {
     }
   }, 
   methods:{
+    loadSlideValue(){
+      if(this.all_frases.savePage){
+        this.slide = this.all_frases.savePage;
+      }
+    },
     closeDialog(){
       
     },
@@ -198,6 +203,7 @@ export default {
         }
       }
       this.lastPosBlock = n
+      this.$db.modifyItem.apply(this,[this.all_frases.id,'savePage',o])
       //TODO - CARREGAR O LYRICS CORRETAMENTE DO VUEX
       //this.$db.setLyric(all_frases);
       console.log(o)
@@ -269,7 +275,7 @@ export default {
       }
       this.printErros(traduzida,index)
       //this.somarPontosObtidos(s1Parts.length - this.score);
-      this.$db.modifyItem.apply(this,[this.all_frases.id,'score_g',this.score])
+      this.$db.modifyItem.apply(this,[this.all_frases.id,'score_g',this.all_frases.score_g])
       //
       this.answerVerify.push(index)
       this.lastPosBlock = index;
@@ -302,6 +308,7 @@ export default {
   },
   mounted: function () {
     this.activated =  this.active;
+    this.loadSlideValue();
    console.log(this.all_frases)
   }
 }
