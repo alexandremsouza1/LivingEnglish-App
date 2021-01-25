@@ -119,7 +119,6 @@ export default {
       }else{
         this.all_frases.time_spent = this.controlTimer
       }
-      this.all_frases.time_spent = this.all_frases.time_spent.toFixed(2)
     },
     openDialog(){
       this.controlTimer = new Date()
@@ -183,6 +182,12 @@ export default {
 
       for(var i = 0; i<s1Parts.length; i++){
           try{
+            debugger
+            if(/[,|.|;|:|?|!|-]/.test(s1Parts[i])){
+              p.push(s1Parts[i]);
+              score = 0;
+              continue;
+            }
             if(s1Parts[i].toLowerCase() === s2Parts[i].toLowerCase()){
               p.push(s1Parts[i]);
               score = 0;
