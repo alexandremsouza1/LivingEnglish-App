@@ -14,4 +14,5 @@ export default ({ Vue }) => {
   
   Firebase.analytics()
   Vue.prototype.$firebase = Firebase
+  Vue.prototype.$firestore = Firebase.firestore();
 }

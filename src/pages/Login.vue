@@ -63,6 +63,12 @@
                 >
                   Register New Account
                 </div>
+                  <div
+                  class="teal"
+                  @click="logout()"
+                >
+                  Logout
+                </div>
                 <div
                   class="q-mt-sm"
                   @click="$router.push('/register')"
@@ -147,6 +153,16 @@ export default {
         var errorCode = error.code;
         var errorMessage = error.message;
         window.alert('Login error!! error:' + errorMessage );
+      });
+    },
+    logout(){
+      var _self = this;
+      this.$firebase.auth().signOut().then(() => {
+        // Sign-out successful.
+          _self.$store.dispatch('userConfig/removeUser')
+      }).catch((error) => {
+        // An error happened.
+        console.log(error)
       });
     }
   }

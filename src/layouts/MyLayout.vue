@@ -156,11 +156,11 @@ export default {
         _self.loadmusic(element) 
       });
     });
-    this.$firebase.auth().onAuthStateChanged(function(user_auth) {;
+    this.$firebase.auth().onAuthStateChanged(function(user_auth) {
         console.log(user_auth)
         if (user_auth) {
           _self.$store.dispatch('userConfig/saveUser', {
-                    user_auth
+                    ...user_auth
           })
         } else {
           // No user is signed in.

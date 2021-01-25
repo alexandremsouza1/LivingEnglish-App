@@ -181,8 +181,7 @@ export default {
       var s2Parts= s2.split(' ');
 
       for(var i = 0; i<s1Parts.length; i++){
-          try{
-            debugger
+          try{      
             if(/[,|.|;|:|?|!|-]/.test(s1Parts[i])){
               p.push(s1Parts[i]);
               score = 0;

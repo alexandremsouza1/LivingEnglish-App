@@ -1,10 +1,14 @@
-
+import auth from '../middleware/auth';
 const routes = [
   {
     path: '/',
     component: () => import('layouts/MyLayout.vue'),
     children: [
-      { name:'login', path: 'login', component: () => import('pages/Login.vue') },
+      { name:'login', path: 'login', component: () => import('pages/Login.vue') ,
+      meta: {
+                middleware: auth,
+            },
+      },
       { name:'settings', path: 'settings', component: () => import('pages/Settings.vue') },
       { name: 'music', path: 'lyrics', component: () => import('pages/Musics.vue') },
       { name: 'lyrics', path: 'paste', component: () => import('pages/lyrics.vue') , props: true },

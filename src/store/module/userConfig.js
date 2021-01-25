@@ -1,3 +1,4 @@
+import { remove } from "lodash"
 
 export default {
     namespaced: true,
@@ -26,10 +27,10 @@ export default {
     mutations: {
       SET_USER (state, user) {
         console.log(user)
-        state.user.name = user.name
+        state.user.name = user.displayName
         state.user.email = user.email
-        state.user.picture = user.picture
-        state.user.token = user.token
+        state.user.picture = user.photoURL
+        state.user.token = user.refreshToken
         state.user.level = user.level
       },
       SET_EMAIL (state, email) {
@@ -40,13 +41,19 @@ export default {
       },
       SET_LEVEL (state, level) {
         state.level = level
+      },
+      REMOVE_USER(state){
+        state.user = {}
       }
     },
   
     // actions
     actions: {
-      saveUser ({ commit }, { user }) {
+      saveUser ({ commit }, user ) {
         commit('SET_USER', user)
+      },
+      removeUser({ commit }){
+        commit('REMOVE_USER')
       }
     }
   }
