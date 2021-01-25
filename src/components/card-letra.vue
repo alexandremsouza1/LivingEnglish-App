@@ -119,6 +119,7 @@ export default {
       }else{
         this.all_frases.time_spent = this.controlTimer
       }
+      this.all_frases.time_spent = this.all_frases.time_spent.toFixed(2)
     },
     openDialog(){
       this.controlTimer = new Date()

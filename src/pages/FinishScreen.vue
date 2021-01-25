@@ -50,7 +50,10 @@ export default {
     onSubmit(){
       let id = this.found.id
       this.$db.modifyItem.apply(this,[id,'nome',this.name])
-      this.$db.modifyItem.apply(this,[id,'status','completo'])
+      if(this.porcent() > 90){
+        this.$db.modifyItem.apply(this,[id,'status','completo'])
+      }
+      this.$db.modifyItem.apply(this,[id,'savePage',0])
       this.$router.push('/lyrics')
     },
     hit(){
@@ -62,6 +65,11 @@ export default {
 
       let total = Math.trunc(((atingida/max)*100))
       return total
+    }
+  },
+  mounted: function () {
+    if(this.found.nome){
+      this.name = this.found.nome
     }
   }
 }

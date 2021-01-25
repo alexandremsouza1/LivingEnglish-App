@@ -118,7 +118,7 @@ export default {
               arr_o = paste_o.split("\n");
               arr_t = paste_t.split("\n");
             }
-              arr_o.forEach(element => {
+              arr_t.forEach(element => {
                 conunter+=this.wordCount(element)
               });
               if(arr_o.length != arr_t.length){
