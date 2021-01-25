@@ -15,7 +15,8 @@
           />
 
         <p>Pontuação atingida: {{this.hit()}}</p> 
-        <p>Pontuação Máxima:{{this.found.pontuacao_max}}</p> 
+        <p>Pontuação Máxima: {{this.found.pontuacao_max}}</p> 
+        <p>Tempo Despendido: {{this.found.time_spent}}  minutos</p> 
           <div class="confirm">
             <q-btn class="q-ma-lg" label="Ok" type="submit" color="primary"/>
           </div>

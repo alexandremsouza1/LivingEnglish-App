@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-dialog v-model="activated" @hide="closeDialog">
+    <q-dialog v-model="activated" @hide="closeDialog" @show="openDialog">
       <q-carousel
         animated
         v-model="slide"
@@ -61,92 +61,11 @@
         </q-carousel-slide> -->
       </q-carousel>
     </q-dialog>
-
-    <!-- <q-dialog v-model="card">
-      <q-card class="my-card">
-        <q-img src="https://cdn.quasar.dev/img/chicken-salad.jpg" />
-
-        <q-card-section>
-          <q-btn
-            fab
-            color="primary"
-            icon="place"
-            class="absolute"
-            style="top: 0; right: 12px; transform: translateY(-50%);"
-          />
-
-          <div class="row no-wrap items-center">
-            <div class="col text-h6 ellipsis">
-              Cafe Basilico
-            </div>
-            <div class="col-auto text-grey text-caption q-pt-md row no-wrap items-center">
-              <q-icon name="place" />
-              250 ft
-            </div>
-          </div>
-
-          <q-rating v-model="stars" :max="5" size="32px" />
-        </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          <div class="text-subtitle1">
-            $・Italian, Cafe
-          </div>
-          <div class="text-caption text-grey">
-            Small plates, salads & sandwiches in an intimate setting.
-          </div>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-actions align="right">
-          <q-btn v-close-popup flat color="primary" label="Reserve" />
-          <q-btn v-close-popup flat color="primary" round icon="event" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-
-    <q-dialog v-model="sliders">
-      <q-card style="width: 300px" class="q-px-sm q-pb-md">
-        <q-card-section>
-          <div class="text-h6">Volumes</div>
-        </q-card-section>
-
-        <q-item-label header>Media volume</q-item-label>
-        <q-item dense>
-          <q-item-section avatar>
-            <q-icon name="volume_up" />
-          </q-item-section>
-          <q-item-section>
-            <q-slider color="teal" v-model="slideVol" :step="0" />
-          </q-item-section>
-        </q-item>
-
-        <q-item-label header>Alarm volume</q-item-label>
-        <q-item dense>
-          <q-item-section avatar>
-            <q-icon name="alarm" />
-          </q-item-section>
-          <q-item-section>
-            <q-slider color="teal" v-model="slideAlarm" :step="0" />
-          </q-item-section>
-        </q-item>
-
-        <q-item-label header>Ring volume</q-item-label>
-        <q-item dense>
-          <q-item-section avatar>
-            <q-icon name="vibration" />
-          </q-item-section>
-          <q-item-section>
-            <q-slider color="teal" v-model="slideVibration" :step="0" />
-          </q-item-section>
-        </q-item>
-      </q-card>
-    </q-dialog> -->
   </div>
 </template>
 <script>
 import googleTranslate from 'google-translate';
+
 export default {
   name:'card',
   props: ['all_frases','active'],
@@ -165,7 +84,8 @@ export default {
       stars: 3,
       slideVol: 39,
       slideAlarm: 56,
-      slideVibration: 63
+      slideVibration: 63,
+      controlTimer:0
     }
   },
   computed:{
@@ -190,7 +110,23 @@ export default {
       }
     },
     closeDialog(){
-      
+     this.addDiffTime()
+    },
+    addDiffTime(){
+      this.controlTimer = this.diff_minutes(this.controlTimer,new Date())
+      if(this.all_frases.time_spent){
+        this.all_frases.time_spent+=this.controlTimer
+      }else{
+        this.all_frases.time_spent = this.controlTimer
+      }
+    },
+    openDialog(){
+      this.controlTimer = new Date()
+    },
+    diff_minutes(dt1,dt2){
+      var diff =(dt2.getTime() - dt1.getTime()) / 1000;
+      diff /= 60;
+      return Math.abs(diff.toFixed(2));
     },
     finishLetra(n,o){
       const found = this.answerVerify.some(element => element == o);
@@ -280,6 +216,8 @@ export default {
       this.answerVerify.push(index)
       this.lastPosBlock = index;
       if(this.finish){
+        this.addDiffTime()
+        this.$db.modifyItem.apply(this,[this.all_frases.id,'time_spent',this.all_frases.time_spent])
         setTimeout(() => {
           const id = this.all_frases.id
          this.$router.push({ name: 'finish', params: { id } }) 
