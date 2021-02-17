@@ -24,11 +24,14 @@
           </q-item-label>
         </q-item-section>
 
-        <q-item-section>
-          <q-item-label >
+        <q-list  class="row">
+          <q-item class="q-pa-xs" v-if="track.status == 'pendente'">
+              <q-icon name="edit" color="purple-13" size="20px" class="float-right" @click.stop.prevent="editItem(track.id)"/>
+          </q-item>
+          <q-item class="q-pa-xs">
               <q-icon name="delete" color="red" size="20px" class="float-right" @click.stop.prevent="removeItem(track.id)"/>
-          </q-item-label>
-        </q-item-section>
+          </q-item>
+        </q-list>
 
   
       </q-item>
@@ -106,6 +109,10 @@ export default {
         }).onOk(() => {
             this.$db.removeLyric.apply(this,[id])
         })
+      },
+      editItem(id){
+        let result = {'id':this.track.id,'orig':this.track.original.join('\n'),'tran':this.track.traducao.join('\n')}
+        this.$router.push({name: 'lyrics', params: {obj:result}});
       }
     }
 }

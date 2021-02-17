@@ -1,12 +1,11 @@
 <template>
    <div>
-    <textarea 
+    <spread-textarea 
       v-if="compare_state" 
-      rows="30"
-      class="lined"
-      v-model="complete_compare"
+      :complete="complete_compare"
+      @updateComplete="updateComplete"
     >
-    </textarea>
+    </spread-textarea>
     <div v-else>
       <q-input
         label="Origin"
@@ -39,13 +38,11 @@
   </div>
 </template>
 <script>
+import SpreadTextarea from 'src/components/SpreadTextarea'
 export default {
     name:'lyrics',
-    props: {
-      obj: {
-        type: Object,
-        required: false
-      },
+    components:{
+      SpreadTextarea
     },
   data () {
     return {
@@ -75,6 +72,7 @@ export default {
   async mounted(){
     if(this.$route.params.hasOwnProperty('obj')){
       const objeto = this.$route.params.obj
+      this.id = objeto.id
       this.text = objeto.orig
       this.translated = objeto.tran
       this.control = true
@@ -197,7 +195,11 @@ export default {
         if(typeof arr_t[index] == "undefined"){
           all.push(" "+"\n")
         }else{
-          all.push(arr_t[index]+"\n");
+          if(index+1 == arr_t.length){
+            all.push(arr_t[index]);
+          }else{
+            all.push(arr_t[index]+"\n");
+          }
         }
       };
       this.complete_compare = all.join("")
@@ -227,7 +229,11 @@ export default {
       if(save){
         this.$db.setLyric.apply(this,[this.music]);
       }
+    },
+    updateComplete(values){
+      this.complete_compare = values
     }
+
 }
 }
 </script>
